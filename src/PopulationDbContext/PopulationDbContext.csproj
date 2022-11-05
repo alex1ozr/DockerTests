@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <PackageReference Include="Autofac" Version="6.4.0" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
+      <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
+    </ItemGroup>
+
+</Project>
