@@ -8,7 +8,6 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
 
-[Collection("Test collection")]
 public class UpdatePersonControllerTests : ControllerTestsBase
 {
     public UpdatePersonControllerTests(PersonApiFactory apiFactory) :
@@ -23,13 +22,13 @@ public class UpdatePersonControllerTests : ControllerTestsBase
         var person = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await _client.PostAsJsonAsync($"people/{personId}", person);
+        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", person);
         var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
 
         person = PersonGenerator.Generate();
 
         // Act
-        var response = await _client.PutAsJsonAsync($"people/{createdPerson!.Id}", person);
+        var response = await Client.PutAsJsonAsync($"people/{createdPerson!.Id}", person);
 
         // Assert
         var personResponse = await response.Content.ReadFromJsonAsync<PersonResponse>();
@@ -44,7 +43,7 @@ public class UpdatePersonControllerTests : ControllerTestsBase
         var person = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await _client.PostAsJsonAsync($"people/{personId}", person);
+        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", person);
         var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
 
         const string invalidEmail = "someInvalidEmail";
@@ -52,7 +51,7 @@ public class UpdatePersonControllerTests : ControllerTestsBase
             .RuleFor(x => x.Email, invalidEmail).Generate();
 
         // Act
-        var response = await _client.PutAsJsonAsync($"people/{createdPerson!.Id}", person);
+        var response = await Client.PutAsJsonAsync($"people/{createdPerson!.Id}", person);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

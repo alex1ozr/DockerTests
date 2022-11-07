@@ -7,7 +7,6 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
 
-[Collection("Test collection")]
 public class DeletePersonControllerTests: ControllerTestsBase
 {
     public DeletePersonControllerTests(PersonApiFactory apiFactory)
@@ -22,11 +21,11 @@ public class DeletePersonControllerTests: ControllerTestsBase
         var person = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
         
-        var createdResponse = await _client.PostAsJsonAsync($"people/{personId}", person);
+        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", person);
         var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
 
         // Act
-        var response = await _client.DeleteAsync($"people/{personId}");
+        var response = await Client.DeleteAsync($"people/{personId}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -36,7 +35,7 @@ public class DeletePersonControllerTests: ControllerTestsBase
     public async Task Delete_ReturnsNotFound_WhenPersonDoesNotExist()
     {
         // Act
-        var response = await _client.DeleteAsync($"people/{Guid.NewGuid()}");
+        var response = await Client.DeleteAsync($"people/{Guid.NewGuid()}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

@@ -7,7 +7,6 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
 
-[Collection("Test collection")]
 public class GetAllPersonControllerTests : ControllerTestsBase
 {
     public GetAllPersonControllerTests(PersonApiFactory apiFactory)
@@ -22,11 +21,11 @@ public class GetAllPersonControllerTests : ControllerTestsBase
         var person = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await _client.PostAsJsonAsync($"people/{personId}", person);
+        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", person);
         var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
 
         // Act
-        var response = await _client.GetAsync("people");
+        var response = await Client.GetAsync("people");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -38,7 +37,7 @@ public class GetAllPersonControllerTests : ControllerTestsBase
     public async Task GetAll_ReturnsEmptyResult_WhenNoPeopleExist()
     {
         // Act
-        var response = await _client.GetAsync("people");
+        var response = await Client.GetAsync("people");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);

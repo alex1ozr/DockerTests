@@ -2,7 +2,7 @@
 
 namespace DockerTestsSample.Api.IntegrationTests;
 
-[CollectionDefinition("Test collection")]
+[CollectionDefinition("Tests in Docker collection")]
 public class SharedTestCollection : ICollectionFixture<PersonApiFactory>
 {
     

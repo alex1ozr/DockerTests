@@ -7,7 +7,6 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
 
-[Collection("Test collection")]
 public class GetPersonControllerTests : ControllerTestsBase
 {
     public GetPersonControllerTests(PersonApiFactory apiFactory)
@@ -22,11 +21,11 @@ public class GetPersonControllerTests : ControllerTestsBase
         var person = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await _client.PostAsJsonAsync($"people/{personId}", person);
+        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", person);
         var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
 
         // Act
-        var response = await _client.GetAsync($"people/{createdPerson!.Id}");
+        var response = await Client.GetAsync($"people/{createdPerson!.Id}");
 
         // Assert
         var retrievedPerson = await response.Content.ReadFromJsonAsync<PersonResponse>();
@@ -38,7 +37,7 @@ public class GetPersonControllerTests : ControllerTestsBase
     public async Task Get_ReturnsNotFound_WhenPersonDoesNotExist()
     {
         // Act
-        var response = await _client.GetAsync($"people/{Guid.NewGuid()}");
+        var response = await Client.GetAsync($"people/{Guid.NewGuid()}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

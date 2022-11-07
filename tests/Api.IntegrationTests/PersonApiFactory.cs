@@ -16,9 +16,9 @@ public class PersonApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetim
         new TestcontainersBuilder<PostgreSqlTestcontainer>()
             .WithDatabase(new PostgreSqlTestcontainerConfiguration
             {
-                Database = "mydb",
-                Username = "test",
-                Password = "test"
+                Database = "TestDb",
+                Username = "user",
+                Password = "password"
             }).Build();
 
     private DbConnection _dbConnection = default!;
@@ -28,7 +28,7 @@ public class PersonApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetim
     
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        Environment.SetEnvironmentVariable("ConnectionStrings:PopulationDbContext", _dbContainer.ConnectionString);
+        builder.UseSetting("ConnectionStrings:PopulationDbContext", _dbContainer.ConnectionString);
     }
 
     public async Task ResetDatabaseAsync()

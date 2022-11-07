@@ -8,7 +8,6 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
 
-[Collection("Test collection")]
 public class CreatePersonControllerTests : ControllerTestsBase
 {
     public CreatePersonControllerTests(PersonApiFactory apiFactory)
@@ -24,7 +23,7 @@ public class CreatePersonControllerTests : ControllerTestsBase
         var personId = Guid.NewGuid();
 
         // Act
-        var response = await _client.PostAsJsonAsync($"people/{personId}", personRequest);
+        var response = await Client.PostAsJsonAsync($"people/{personId}", personRequest);
 
         // Assert
         var personResponse = await response.Content.ReadFromJsonAsync<PersonResponse>();
@@ -43,7 +42,7 @@ public class CreatePersonControllerTests : ControllerTestsBase
             .RuleFor(x => x.Email, invalidEmail).Generate();
 
         // Act
-        var response = await _client.PostAsJsonAsync($"people/{Guid.NewGuid()}", personRequest);
+        var response = await Client.PostAsJsonAsync($"people/{Guid.NewGuid()}", personRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
