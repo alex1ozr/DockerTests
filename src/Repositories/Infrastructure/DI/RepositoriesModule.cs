@@ -8,7 +8,7 @@ public sealed class RepositoriesModule : Module
     protected override void Load(ContainerBuilder builder)
     {
         builder
-            .RegisterAssemblyTypes(typeof(RepositoriesModule).Assembly)
+            .RegisterAssemblyTypes(ThisAssembly)
             .AssignableTo<IDbRepository>()
             .AsImplementedInterfaces()
             .InstancePerDependency();

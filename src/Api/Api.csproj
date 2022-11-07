@@ -5,7 +5,6 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
         <PackageReference Include="Npgsql" Version="6.0.7" />
         <PackageReference Include="ValueOf" Version="2.0.31" />

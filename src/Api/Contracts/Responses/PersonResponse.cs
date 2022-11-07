@@ -8,7 +8,7 @@ public sealed class PersonResponse
 
     public string LastName { get; set; } = default!;
 
-    public int Age { get; set; }
-    
+    public DateTime BirthDate { get; set; }
+
     public string? Email { get; set; }
 }

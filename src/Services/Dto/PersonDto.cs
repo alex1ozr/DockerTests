@@ -1,6 +1,6 @@
 namespace DockerTestsSample.Services.Dto;
 
-public class PersonDto
+public sealed class PersonDto
 {
     public PersonDto(Guid id, string name, string lastName, DateTime birthDate)
     {

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DockerTestsSample.Api.Controllers;
 
 [ApiController]
-[Route("persons/")]
+[Route("people/")]
 public sealed class PersonController : ControllerBase
 {
     private readonly IPersonService _customerService;
@@ -23,8 +23,8 @@ public sealed class PersonController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] PersonRequest request)
+    [HttpPost("{id:guid}")]
+    public async Task<IActionResult> Create([FromMultiSource] CreatePersonRequest request)
     {
         var personDto = _mapper.Map<PersonDto>(request);
 
@@ -58,11 +58,9 @@ public sealed class PersonController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(
-        [FromMultiSource] UpdatePersonRequest request)
+    public async Task<IActionResult> Update([FromMultiSource] UpdatePersonRequest request)
     {
         var existingPerson = await _customerService.GetAsync(request.Id);
-
         if (existingPerson is null)
         {
             return NotFound();

@@ -28,7 +28,8 @@ builder.Services.AddFluentValidationAutoValidation(x =>
 {
     x.DisableDataAnnotationsValidation = true;
 });
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreatePersonRequestValidator>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));

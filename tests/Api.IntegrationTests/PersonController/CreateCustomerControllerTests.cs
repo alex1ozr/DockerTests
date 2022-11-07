@@ -31,36 +31,36 @@ public class CreatePersonControllerTests : IAsyncLifetime
     public async Task Create_CreatesUser_WhenDataIsValid()
     {
         // Arrange
-        var customer = _customerGenerator.Generate();
+        var personRequest = _customerGenerator.Generate();
+        var personId = Guid.NewGuid();
 
         // Act
-        var response = await _client.PostAsJsonAsync("customers", customer);
+        var response = await _client.PostAsJsonAsync($"people/{personId}", personRequest);
 
         // Assert
         var customerResponse = await response.Content.ReadFromJsonAsync<PersonResponse>();
-        customerResponse.Should().BeEquivalentTo(customer);
+        customerResponse.Should().BeEquivalentTo(personRequest);
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         response.Headers.Location!.ToString().Should()
-            .Be($"http://localhost/customers/{customerResponse!.Id}");
+            .Be($"http://localhost/people/{customerResponse!.Id}");
     }
 
     [Fact]
     public async Task Create_ReturnsValidationError_WhenEmailIsInvalid()
     {
         // Arrange
-        const string invalidEmail = "dasdja9d3j";
-        var customer = _customerGenerator.Clone()
+        const string invalidEmail = "wgwegw";
+        var personRequest = _customerGenerator.Clone()
             .RuleFor(x => x.Email, invalidEmail).Generate();
 
         // Act
-        var response = await _client.PostAsJsonAsync("customers", customer);
+        var response = await _client.PostAsJsonAsync($"people/{Guid.NewGuid()}", personRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var error = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
         error!.Status.Should().Be(400);
-        error.Title.Should().Be("One or more validation errors occurred.");
-        error.Errors["Email"][0].Should().Be($"{invalidEmail} is not a valid email address");
+        error.Errors.ContainsKey("Person.Email");
     }
 
     public Task InitializeAsync() => Task.CompletedTask;
