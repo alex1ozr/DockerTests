@@ -12,14 +12,14 @@ namespace DockerTestsSample.Api.Controllers;
 [Route("people/")]
 public sealed class PersonController : ControllerBase
 {
-    private readonly IPersonService _customerService;
+    private readonly IPersonService _personService;
     private readonly IMapper _mapper;
 
     public PersonController(
-        IPersonService customerService,
+        IPersonService personService,
         IMapper mapper)
     {
-        _customerService = customerService;
+        _personService = personService;
         _mapper = mapper;
     }
 
@@ -28,17 +28,17 @@ public sealed class PersonController : ControllerBase
     {
         var personDto = _mapper.Map<PersonDto>(request);
 
-        await _customerService.CreateAsync(personDto);
+        await _personService.CreateAsync(personDto);
 
-        var customerResponse = _mapper.Map<PersonResponse>(personDto);
+        var response = _mapper.Map<PersonResponse>(personDto);
 
-        return CreatedAtAction("Get", new { customerResponse.Id }, customerResponse);
+        return CreatedAtAction("Get", new { response.Id }, response);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get([FromRoute] Guid id)
     {
-        var personDto = await _customerService.GetAsync(id);
+        var personDto = await _personService.GetAsync(id);
 
         if (personDto is null)
         {
@@ -52,7 +52,7 @@ public sealed class PersonController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var people = await _customerService.GetAllAsync();
+        var people = await _personService.GetAllAsync();
         var peopleResponse = _mapper.Map<IReadOnlyCollection<PersonResponse>>(people);
         return Ok(peopleResponse);
     }
@@ -60,29 +60,29 @@ public sealed class PersonController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update([FromMultiSource] UpdatePersonRequest request)
     {
-        var existingPerson = await _customerService.GetAsync(request.Id);
+        var existingPerson = await _personService.GetAsync(request.Id);
         if (existingPerson is null)
         {
             return NotFound();
         }
 
         var personDto = _mapper.Map<PersonDto>(request);
-        await _customerService.UpdateAsync(personDto);
+        await _personService.UpdateAsync(personDto);
 
-        var customerResponse = _mapper.Map<PersonResponse>(personDto);
-        return Ok(customerResponse);
+        var response = _mapper.Map<PersonResponse>(personDto);
+        return Ok(response);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        var existingPerson = await _customerService.GetAsync(id);
+        var existingPerson = await _personService.GetAsync(id);
         if (existingPerson is null)
         {
             return NotFound();
         }
         
-        await _customerService.DeleteAsync(id);
+        await _personService.DeleteAsync(id);
 
         return Ok();
     }
