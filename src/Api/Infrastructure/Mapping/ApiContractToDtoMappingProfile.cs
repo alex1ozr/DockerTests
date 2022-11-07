@@ -2,7 +2,7 @@ using AutoMapper;
 using DockerTestsSample.Api.Contracts.Requests;
 using DockerTestsSample.Services.Dto;
 
-namespace DockerTestsSample.Api.Mapping;
+namespace DockerTestsSample.Api.Infrastructure.Mapping;
 
 public sealed class ApiContractToDtoMappingProfile: Profile
 {

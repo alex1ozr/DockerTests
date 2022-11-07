@@ -1,6 +1,6 @@
 namespace DockerTestsSample.PopulationDbContext.Entities;
 
-public class Person
+public sealed class Person
 {
     public Person(Guid id, string name, string lastName, DateTime birthDate)
     {

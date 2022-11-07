@@ -9,4 +9,10 @@ public sealed class PersonNotFoundException : DomainException
     {
         Id = id;
     }
+    
+    /// <inheritdoc />
+    public override string ErrorCode => "person_not_found";
+
+    /// <inheritdoc />
+    public override string ShortDescription => "The person with specified id was not found";
 }

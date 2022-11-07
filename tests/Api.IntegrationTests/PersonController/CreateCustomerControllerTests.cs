@@ -50,4 +50,24 @@ public class CreatePersonControllerTests : ControllerTestsBase
         error!.Status.Should().Be(400);
         error.Errors.Should().ContainKey("Person.Email");
     }
+    
+    [Fact]
+    public async Task Create_ReturnsError_WhenPersonAlreadyExists()
+    {
+        // Arrange
+        var personRequest = PersonGenerator.Generate();
+        var personId = Guid.NewGuid();
+
+        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", personRequest);
+
+        // Act
+        var response = await Client.PostAsJsonAsync($"people/{personId}", personRequest);
+
+        // Assert
+        createdResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        var error = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        error!.Status.Should().Be((int) HttpStatusCode.Conflict);
+        error.Type.Should().Be("person_already_exists");
+    }
 }

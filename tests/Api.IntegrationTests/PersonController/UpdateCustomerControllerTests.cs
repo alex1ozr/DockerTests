@@ -59,4 +59,20 @@ public class UpdatePersonControllerTests : ControllerTestsBase
         error!.Status.Should().Be(400);
         error.Errors.Should().ContainKey("Person.Email");
     }
+    
+    [Fact]
+    public async Task Update_ReturnsError_WhenPersonDoesNotExist()
+    {
+        // Arrange
+        var person = PersonGenerator.Generate();
+
+        // Act
+        var response = await Client.PutAsJsonAsync($"people/{Guid.NewGuid()}", person);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var error = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        error!.Status.Should().Be((int) HttpStatusCode.NotFound);
+        error.Type.Should().Be("person_not_found");
+    }
 }

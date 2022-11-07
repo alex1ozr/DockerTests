@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using DockerTestsSample.Api.Contracts.Responses;
 using DockerTestsSample.Api.IntegrationTests.Abstract;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
@@ -39,5 +40,8 @@ public class DeletePersonControllerTests: ControllerTestsBase
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var error = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        error!.Status.Should().Be((int) HttpStatusCode.NotFound);
+        error.Type.Should().Be("person_not_found");
     }
 }

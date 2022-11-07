@@ -1,7 +1,7 @@
 using AutoMapper;
-using DockerTestsSample.Api.Attributes;
 using DockerTestsSample.Api.Contracts.Requests;
 using DockerTestsSample.Api.Contracts.Responses;
+using DockerTestsSample.Api.Infrastructure.Attributes;
 using DockerTestsSample.Services.Abstract;
 using DockerTestsSample.Services.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -60,12 +60,6 @@ public sealed class PersonController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update([FromMultiSource] UpdatePersonRequest request)
     {
-        var existingPerson = await _personService.GetAsync(request.Id);
-        if (existingPerson is null)
-        {
-            return NotFound();
-        }
-
         var personDto = _mapper.Map<PersonDto>(request);
         await _personService.UpdateAsync(personDto);
 
@@ -76,12 +70,6 @@ public sealed class PersonController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        var existingPerson = await _personService.GetAsync(id);
-        if (existingPerson is null)
-        {
-            return NotFound();
-        }
-        
         await _personService.DeleteAsync(id);
 
         return Ok();

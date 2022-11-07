@@ -1,4 +1,5 @@
 using AutoMapper;
+using DockerTestsSample.Common.Extensions;
 using DockerTestsSample.PopulationDbContext.Entities;
 using DockerTestsSample.Services.Dto;
 
@@ -17,7 +18,7 @@ public sealed class DtoToEntitiesMappingProfile: Profile
                 c => c.MapFrom(s => s.Email))
             .AfterMap((person, _) =>
             {
-                person.BirthDate = person.BirthDate.ToUniversalTime();
+                person.BirthDate = person.BirthDate.SetKindUtc();
             });
         
         CreateMap<PersonDto, Person>()
@@ -29,7 +30,7 @@ public sealed class DtoToEntitiesMappingProfile: Profile
                 c => c.MapFrom(s => s.Email))
             .AfterMap((_, person) =>
             {
-                person.BirthDate = person.BirthDate.ToUniversalTime();
+                person.BirthDate = person.BirthDate.SetKindUtc();
             });
     }
 }

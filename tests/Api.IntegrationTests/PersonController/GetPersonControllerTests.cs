@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using DockerTestsSample.Api.Contracts.Responses;
 using DockerTestsSample.Api.IntegrationTests.Abstract;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;

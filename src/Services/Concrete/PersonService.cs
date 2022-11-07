@@ -50,7 +50,7 @@ internal sealed class PersonService : IPersonService
                      ?? throw new PersonNotFoundException(personDto.Id);
 
         _mapper.Map(personDto, entity);
-        await _personRepository.UpdateAsync(entity);
+        await _personRepository.UpdateAsync(entity, ct);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken ct)

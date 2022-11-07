@@ -2,7 +2,8 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.OwnedInstances;
 using AutoMapper;
-using DockerTestsSample.Api.Mapping;
+using DockerTestsSample.Api.Infrastructure.Filters;
+using DockerTestsSample.Api.Infrastructure.Mapping;
 using DockerTestsSample.Api.Validation;
 using DockerTestsSample.PopulationDbContext;
 using DockerTestsSample.PopulationDbContext.DI;
@@ -23,7 +24,11 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 var config = builder.Configuration;
 config.AddEnvironmentVariables("PeopleApi_");
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddMvcOptions(opt =>
+    {
+        opt.Filters.Add<DefaultExceptionFilter>();
+    });
 builder.Services.AddFluentValidationAutoValidation(x =>
 {
     x.DisableDataAnnotationsValidation = true;
@@ -51,7 +56,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.UseMiddleware<ValidationExceptionMiddleware>();
 app.MapControllers();
 
 var mapper = app.Services.GetRequiredService<IMapper>();
