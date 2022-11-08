@@ -1,25 +1,9 @@
 ## О проекте
-Пример реализации Api и тестов в Docker
+Пример реализации Api и тестов с поднятием БД в Docker (используя библиотек TestContainers и Respawn)
 
 ## Проекты для запуска
 #### Api
 Запуск HTTP-сервера
-
-## Генерация клиента
-```shell
-# Генерация происходит с использованием утилиты NSwag
-# https://github.com/RicoSuter/NSwag
-
-# Установить NSwag
-npm install -g npm
-npm i -g nswag
-
-# Сгенерировать спецификацию open api (через swagger) и сохранить в файл
-swagger.json
-
-# Выполнить PowerShell-скрипт
-GenerateClient.ps1
-```
 
 ## Тесты
 ```shell
