@@ -8,7 +8,7 @@ namespace DockerTestsSample.PopulationDbContext.DI;
 
 public sealed class PopulationDbContextModule : Module
 {
-    public const string ConnectionStringName = "PopulationDbContext";
+    public static readonly string ConnectionStringName = "PopulationDbContext";
 
     protected override void Load(ContainerBuilder containerBuilder)
     {

@@ -4,9 +4,11 @@ using DockerTestsSample.PopulationDbContext.Entities;
 using DockerTestsSample.Repositories.Abstract;
 using DockerTestsSample.Services.Abstract;
 using DockerTestsSample.Services.Dto;
+using JetBrains.Annotations;
 
 namespace DockerTestsSample.Services.Concrete;
 
+[UsedImplicitly]
 internal sealed class PersonService : IPersonService
 {
     private readonly IPersonRepository _personRepository;

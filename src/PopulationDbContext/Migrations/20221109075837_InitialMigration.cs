@@ -23,6 +23,11 @@ namespace DockerTestsSample.PopulationDbContext.Migrations
                 {
                     table.PrimaryKey("PK_People", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_People_Email",
+                table: "People",
+                column: "Email");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -1,8 +1,10 @@
 ﻿using DockerTestsSample.Api.Contracts.Requests;
 using FluentValidation;
+using JetBrains.Annotations;
 
 namespace DockerTestsSample.Api.Validation;
 
+[UsedImplicitly]
 public sealed class CreatePersonRequestValidator : AbstractValidator<CreatePersonRequest>
 {
     public CreatePersonRequestValidator()

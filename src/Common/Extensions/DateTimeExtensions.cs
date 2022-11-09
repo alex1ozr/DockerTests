@@ -8,10 +8,8 @@ public static class DateTimeExtensions
         {
             return dateTime.Value.SetKindUtc();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     public static DateTime SetKindUtc(this DateTime dateTime)

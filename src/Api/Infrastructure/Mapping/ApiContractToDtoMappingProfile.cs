@@ -1,10 +1,12 @@
 using AutoMapper;
 using DockerTestsSample.Api.Contracts.Requests;
 using DockerTestsSample.Services.Dto;
+using JetBrains.Annotations;
 
 namespace DockerTestsSample.Api.Infrastructure.Mapping;
 
-public sealed class ApiContractToDtoMappingProfile: Profile
+[UsedImplicitly]
+internal sealed class ApiContractToDtoMappingProfile: Profile
 {
     public ApiContractToDtoMappingProfile()
     {

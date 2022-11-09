@@ -25,7 +25,6 @@ namespace DockerTestsSample.PopulationDbContext.Migrations
             modelBuilder.Entity("DockerTestsSample.PopulationDbContext.Entities.Person", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("BirthDate")
@@ -43,6 +42,8 @@ namespace DockerTestsSample.PopulationDbContext.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email");
 
                     b.ToTable("People");
                 });

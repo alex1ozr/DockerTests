@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DockerTestsSample.PopulationDbContext.Migrations
 {
     [DbContext(typeof(PopulationDbContext))]
-    [Migration("20221105135100_InitialMigration")]
+    [Migration("20221109075837_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,6 @@ namespace DockerTestsSample.PopulationDbContext.Migrations
             modelBuilder.Entity("DockerTestsSample.PopulationDbContext.Entities.Person", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("BirthDate")
@@ -45,6 +44,8 @@ namespace DockerTestsSample.PopulationDbContext.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email");
 
                     b.ToTable("People");
                 });
