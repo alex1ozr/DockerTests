@@ -3,14 +3,13 @@ using System.Net.Http.Json;
 using DockerTestsSample.Api.Contracts.Responses;
 using DockerTestsSample.Api.IntegrationTests.Abstract;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
 
 public class GetPersonControllerTests : ControllerTestsBase
 {
-    public GetPersonControllerTests(PersonApiFactory apiFactory)
+    public GetPersonControllerTests(TestApplication apiFactory)
         : base(apiFactory)
     {
     }

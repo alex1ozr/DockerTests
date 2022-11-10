@@ -10,7 +10,7 @@ namespace DockerTestsSample.Api.IntegrationTests.PersonController;
 
 public class CreatePersonControllerTests : ControllerTestsBase
 {
-    public CreatePersonControllerTests(PersonApiFactory apiFactory)
+    public CreatePersonControllerTests(TestApplication apiFactory)
         : base(apiFactory)
     {
     }

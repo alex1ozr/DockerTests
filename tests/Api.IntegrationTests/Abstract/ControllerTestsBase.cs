@@ -5,7 +5,7 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.Abstract;
 
-[Collection("Tests in Docker collection")]
+[Collection("Integration tests collection")]
 public abstract class ControllerTestsBase: IAsyncLifetime
 {
     private readonly Func<Task> _resetDatabase;
@@ -17,7 +17,7 @@ public abstract class ControllerTestsBase: IAsyncLifetime
         .RuleFor(x => x.LastName, faker => faker.Person.LastName)
         .RuleFor(x => x.BirthDate, faker => faker.Person.DateOfBirth.Date.SetKindUtc());
 
-    protected ControllerTestsBase(PersonApiFactory apiFactory)
+    protected ControllerTestsBase(TestApplication apiFactory)
     {
         Client = apiFactory.HttpClient;
         _resetDatabase = apiFactory.ResetDatabaseAsync;

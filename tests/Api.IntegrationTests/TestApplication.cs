@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using DockerTestsSample.Common.Extensions;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
@@ -10,7 +11,7 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests;
 
-public sealed class PersonApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
+public sealed class TestApplication : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 {
     private readonly PostgreSqlTestcontainer _dbContainer =
         new TestcontainersBuilder<PostgreSqlTestcontainer>()
@@ -21,10 +22,13 @@ public sealed class PersonApiFactory : WebApplicationFactory<IApiMarker>, IAsync
                 Password = "password"
             }).Build();
 
-    private DbConnection _dbConnection = default!;
-    private Respawner _respawner = default!;
+    private DbConnection? _dbConnection;
+    private Respawner? _respawner;
+    private HttpClient? _httpClient;
 
-    public HttpClient HttpClient { get; private set; } = default!;
+    private DbConnection DbConnection => _dbConnection.Required();
+    private Respawner Respawner => _respawner.Required();
+    public HttpClient HttpClient => _httpClient.Required();
     
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -33,21 +37,21 @@ public sealed class PersonApiFactory : WebApplicationFactory<IApiMarker>, IAsync
 
     public async Task ResetDatabaseAsync()
     {
-        await _respawner.ResetAsync(_dbConnection);
+        await Respawner.ResetAsync(DbConnection);
     }
 
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
         _dbConnection = new NpgsqlConnection(_dbContainer.ConnectionString);
-        HttpClient = CreateClient();
+        _httpClient = CreateClient();
         await InitializeRespawner();
     }
 
     private async Task InitializeRespawner()
     {
-        await _dbConnection.OpenAsync();
-        _respawner = await Respawner.CreateAsync(_dbConnection, new RespawnerOptions
+        await DbConnection.OpenAsync();
+        _respawner = await Respawner.CreateAsync(DbConnection, new RespawnerOptions
         {
             DbAdapter = DbAdapter.Postgres,
             SchemasToInclude = new[] { "public" }

@@ -10,7 +10,7 @@ namespace DockerTestsSample.Api.IntegrationTests.PersonController;
 
 public class DeletePersonControllerTests: ControllerTestsBase
 {
-    public DeletePersonControllerTests(PersonApiFactory apiFactory)
+    public DeletePersonControllerTests(TestApplication apiFactory)
         : base(apiFactory)
     {
     }
