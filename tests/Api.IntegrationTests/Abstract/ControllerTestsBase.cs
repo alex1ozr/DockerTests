@@ -5,7 +5,7 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.Abstract;
 
-[Collection("Integration tests collection")]
+[Collection(IntegrationTestCollection.Name)]
 public abstract class ControllerTestsBase: IAsyncLifetime
 {
     private readonly Func<Task> _resetDatabase;
