@@ -7,8 +7,4 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Migrations" />
-    </ItemGroup>
-
 </Project>
