@@ -6,7 +6,7 @@
     
     <ItemGroup>
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
-        <PackageReference Include="Npgsql" Version="6.0.7" />
+        <PackageReference Include="Npgsql" Version="6.0.9" />
         <PackageReference Include="ValueOf" Version="2.0.31" />
         <PackageReference Include="Dapper" Version="2.0.123" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />

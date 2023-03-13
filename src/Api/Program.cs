@@ -24,7 +24,9 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 var config = builder.Configuration;
 config.AddEnvironmentVariables("PeopleApi_");
 
-builder.Services.AddControllers()
+builder.Services
+    .AddControllers()
+    .AddControllersAsServices()
     .AddMvcOptions(opt =>
     {
         opt.Filters.Add<DefaultExceptionFilter>();
