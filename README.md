@@ -17,5 +17,5 @@ dotnet test
 dotnet tool install --global dotnet-ef
 
 #Create schema migration
-dotnet ef migrations add InitialMigration --startup-project src\Api -p src\PopulationDbContext -c PopulationDbContext
+dotnet ef migrations add InitialMigration --startup-project src/Api -p src/PopulationDbContext -c PopulationDbContext
 ```

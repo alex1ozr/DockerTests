@@ -9,7 +9,9 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests;
 
-public sealed class TestApplication : WebApplicationFactory<IApiMarker>, IAsyncLifetime
+public sealed class TestApplication :
+    WebApplicationFactory<IApiMarker>, 
+    IAsyncLifetime
 {
     private readonly PostgreSqlContainer _dbContainer = 
         new PostgreSqlBuilder()

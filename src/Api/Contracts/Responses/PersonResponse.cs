@@ -2,13 +2,13 @@
 
 public sealed class PersonResponse
 {
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public string LastName { get; set; } = default!;
+    public required string LastName { get; init; }
 
-    public DateTime BirthDate { get; set; }
+    public required DateOnly BirthDate { get; init; }
 
     public string? Email { get; set; }
 }

@@ -1,6 +1,5 @@
 ﻿using Bogus;
 using DockerTestsSample.Api.Contracts.Requests;
-using DockerTestsSample.Common.Extensions;
 using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.Abstract;
@@ -15,7 +14,7 @@ public abstract class ControllerTestsBase: IAsyncLifetime
         .RuleFor(x => x.Email, faker => faker.Person.Email)
         .RuleFor(x => x.Name, faker => faker.Person.FirstName)
         .RuleFor(x => x.LastName, faker => faker.Person.LastName)
-        .RuleFor(x => x.BirthDate, faker => faker.Person.DateOfBirth.Date.SetKindUtc());
+        .RuleFor(x => x.BirthDate, faker => DateOnly.FromDateTime(faker.Person.DateOfBirth.Date));
 
     protected ControllerTestsBase(TestApplication apiFactory)
     {

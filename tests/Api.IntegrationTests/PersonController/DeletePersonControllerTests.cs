@@ -8,7 +8,7 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
 
-public class DeletePersonControllerTests: ControllerTestsBase
+public sealed class DeletePersonControllerTests: ControllerTestsBase
 {
     public DeletePersonControllerTests(TestApplication apiFactory)
         : base(apiFactory)

@@ -23,8 +23,10 @@ public sealed class PersonController : ControllerBase
         _mapper = mapper;
     }
 
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     [HttpPost("{id:guid}")]
-    public async Task<IActionResult> Create([FromMultiSource] CreatePersonRequest request)
+    public async Task<ActionResult<PersonResponse>> Create([FromMultiSource] CreatePersonRequest request)
     {
         var personDto = _mapper.Map<PersonDto>(request);
 
@@ -35,8 +37,10 @@ public sealed class PersonController : ControllerBase
         return CreatedAtAction("Get", new { response.Id }, response);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get([FromRoute] Guid id)
+    public async Task<ActionResult<PersonResponse>> Get([FromRoute] Guid id)
     {
         var personDto = await _personService.GetAsync(id);
 
@@ -49,16 +53,19 @@ public sealed class PersonController : ControllerBase
         return Ok(personResponse);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<IReadOnlyCollection<PersonResponse>>> GetAll()
     {
         var people = await _personService.GetAllAsync();
         var peopleResponse = _mapper.Map<IReadOnlyCollection<PersonResponse>>(people);
         return Ok(peopleResponse);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update([FromMultiSource] UpdatePersonRequest request)
+    public async Task<ActionResult<PersonResponse>> Update([FromMultiSource] UpdatePersonRequest request)
     {
         var personDto = _mapper.Map<PersonDto>(request);
         await _personService.UpdateAsync(personDto);
@@ -67,6 +74,8 @@ public sealed class PersonController : ControllerBase
         return Ok(response);
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {

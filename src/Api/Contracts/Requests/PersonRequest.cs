@@ -2,11 +2,11 @@
 
 public sealed class PersonRequest
 {
-    public string Name { get; set; } = default!;
+    public required string Name { get; init; }
 
-    public string LastName { get; set; } = default!;
-
-    public DateTime BirthDate { get; set; }
+    public required string LastName { get; init; }
+    
+    public required DateOnly BirthDate { get; init; }
     
     public string? Email { get; set; }
 }

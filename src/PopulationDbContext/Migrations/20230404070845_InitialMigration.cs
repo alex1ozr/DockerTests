@@ -16,7 +16,7 @@ namespace DockerTestsSample.PopulationDbContext.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

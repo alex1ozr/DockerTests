@@ -1,22 +1,14 @@
 namespace DockerTestsSample.Services.Dto;
 
-public sealed class PersonDto
+public sealed record class PersonDto
 {
-    public PersonDto(Guid id, string name, string lastName, DateTime birthDate)
-    {
-        Id = id;
-        Name = name;
-        LastName = lastName;
-        BirthDate = birthDate;
-    }
-
-    public Guid Id { get; set; }
+    public required Guid Id { get; init; }
     
-    public string Name { get; set; }
+    public required string Name { get; init; }
 
-    public string LastName { get; set; }
+    public required string LastName { get; init; }
 
-    public DateTime BirthDate { get; set; }
+    public required DateOnly BirthDate { get; init; }
     
     public string? Email { get; set; }
 }

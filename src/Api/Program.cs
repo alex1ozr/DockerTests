@@ -7,6 +7,7 @@ using DockerTestsSample.Api.Infrastructure.Mapping;
 using DockerTestsSample.Api.Validation;
 using DockerTestsSample.PopulationDbContext;
 using DockerTestsSample.PopulationDbContext.DI;
+using DockerTestsSample.Repositories.Infrastructure.DI;
 using DockerTestsSample.Services.Infrastructure.DI;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -49,6 +50,7 @@ builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
     containerBuilder.RegisterModule<PopulationDbContextModule>();
+    containerBuilder.RegisterModule<RepositoriesModule>();
     containerBuilder.RegisterModule<ServicesModule>();
 });
 
@@ -67,7 +69,11 @@ app.MapControllers();
 var mapper = app.Services.GetRequiredService<IMapper>();
 mapper.ConfigurationProvider.AssertConfigurationIsValid();
 
-await using var dbContext = app.Services.GetRequiredService<Func<Owned<IPopulationDbContext>>>()();
-await dbContext.Value.Database.MigrateAsync();
+var skipMigration = app.Services.GetRequiredService<IConfiguration>().GetSection("SkipMigration").Get<bool?>() ?? false;
+if (!skipMigration)
+{
+    await using var dbContext = app.Services.GetRequiredService<Func<Owned<IPopulationDbContext>>>()();
+    await dbContext.Value.Database.MigrateAsync();
+}
 
 app.Run();
