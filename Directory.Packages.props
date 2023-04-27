@@ -1,0 +1,50 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <EnablePackageVersionOverride>true</EnablePackageVersionOverride>
+  </PropertyGroup>
+  <ItemGroup>
+    
+    <!-- Automapper -->
+    <PackageVersion Include="AutoMapper" Version="12.0.1"/>
+    <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0"/>
+
+    <!-- Fluent Validation -->
+    <PackageVersion Include="FluentValidation" Version="11.5.2" />
+    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0"/>
+
+    <!-- API hosting -->
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+    
+    <!-- DI -->
+    <PackageVersion Include="Autofac" Version="7.0.0" />
+    <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+
+    <!-- Entity Framework Core -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3"/>
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3"/>
+
+    <!-- JSON -->
+    <PackageVersion Include="System.Text.Json" Version="7.0.0"/>
+
+    <!-- Code analysis and Annotations  -->
+    <PackageVersion Include="JetBrains.Annotations" Version="2022.3.1"/>
+    <PackageVersion Include="Microsoft.CodeAnalysis" Version="4.2.0"/>
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4"/>
+
+    <!-- Tests -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.4" />
+    <PackageVersion Include="xunit" Version="2.4.2"/>
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5"/>
+    <PackageVersion Include="coverlet.collector" Version="3.2.0"/>
+    <PackageVersion Include="FluentAssertions" Version="6.10.0"/>
+    <PackageVersion Include="Testcontainers" Version="3.0.0" />
+    <PackageVersion Include="Testcontainers.PostgreSql" Version="3.0.0" />
+    <PackageVersion Include="Bogus" Version="34.0.2" />
+    <PackageVersion Include="Respawn" Version="6.0.0" />
+    
+  </ItemGroup>
+</Project>
