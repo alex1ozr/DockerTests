@@ -1,6 +1,7 @@
-﻿using DockerTestsSample.PopulationDbContext;
-using DockerTestsSample.PopulationDbContext.Entities;
+﻿using DockerTestsSample.Common.Exceptions;
 using DockerTestsSample.Repositories.Abstract;
+using DockerTestsSample.Store;
+using DockerTestsSample.Store.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DockerTestsSample.Repositories.Concrete;
@@ -41,7 +42,7 @@ internal sealed class PersonRepository : IPersonRepository
     {
         var entity = await _dbContext.People
                          .FirstOrDefaultAsync(x => x.Id == id, ct)
-                     ?? throw new Exception($"{nameof(Person)} with {nameof(Person.Id)}={id} not found");
+                     ?? throw new PersonNotFoundException(id);
 
         _dbContext.People.Remove(entity);
     }

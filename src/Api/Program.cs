@@ -6,9 +6,10 @@ using DockerTestsSample.Api.Infrastructure.Filters;
 using DockerTestsSample.Api.Infrastructure.Mapping;
 using DockerTestsSample.Api.Validation;
 using DockerTestsSample.PopulationDbContext;
-using DockerTestsSample.PopulationDbContext.DI;
 using DockerTestsSample.Repositories.Infrastructure.DI;
 using DockerTestsSample.Services.Infrastructure.DI;
+using DockerTestsSample.Store;
+using DockerTestsSample.Store.Di;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
@@ -46,10 +47,10 @@ builder.Services.AddSwaggerGen(c =>
         { Title = "My Sample Service API", Version = "v1" });
 });
 builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));
+builder.Services.AddReviewContext("PopulationDb");
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
-    containerBuilder.RegisterModule<PopulationDbContextModule>();
     containerBuilder.RegisterModule<RepositoriesModule>();
     containerBuilder.RegisterModule<ServicesModule>();
 });

@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PopulationDbContext", "src\PopulationDbContext\PopulationDbContext.csproj", "{CF75E399-2BD6-432A-BDDC-4D00D5DFD779}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store", "src\Store\Store.csproj", "{CF75E399-2BD6-432A-BDDC-4D00D5DFD779}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "src\Services\Services.csproj", "{C97B5988-38CE-4E40-9E18-B35F264FB8DF}"
 EndProject

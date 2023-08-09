@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace DockerTestsSample.UnitTests.DI;
+namespace DockerTestsSample.UnitTests.Di;
 
 /// <summary>
 /// API dependencies tests

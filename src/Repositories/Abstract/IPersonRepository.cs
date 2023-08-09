@@ -1,4 +1,4 @@
-﻿using DockerTestsSample.PopulationDbContext.Entities;
+﻿using DockerTestsSample.Store.Entities;
 
 namespace DockerTestsSample.Repositories.Abstract;
 

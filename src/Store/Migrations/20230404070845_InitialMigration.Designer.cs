@@ -3,6 +3,7 @@ using System;
 using DockerTestsSample.PopulationDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,10 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DockerTestsSample.PopulationDbContext.Migrations
 {
-    [DbContext(typeof(PopulationDbContext))]
-    partial class PopulationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(Store.PopulationDbContext))]
+    [Migration("20230404070845_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +24,7 @@ namespace DockerTestsSample.PopulationDbContext.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DockerTestsSample.PopulationDbContext.Entities.Person", b =>
+            modelBuilder.Entity("DockerTestsSample.Store.Entities.Person", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");

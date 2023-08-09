@@ -1,0 +1,31 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace DockerTestsSample.Store.Di;
+
+public static class ServiceCollectionExtensions
+{
+    /// <summary>
+    /// Register Db Context
+    /// </summary>
+    public static IServiceCollection AddReviewContext(
+        this IServiceCollection services,
+        string connectionStringName)
+    {
+        services.AddDbContextPool<PopulationDbContext>((provider, builder) =>
+        {
+            var connectionString = provider.GetRequiredService<IConfiguration>()
+                                       .GetConnectionString(connectionStringName)
+                                   ?? throw new InvalidOperationException($"Connection string {connectionStringName} is not found");
+            builder.UseNpgsql(connectionString, optionsBuilder =>
+            {
+                optionsBuilder.EnableRetryOnFailure();
+            });
+        });
+
+        services.AddScoped<IPopulationDbContext>(provider => provider.GetRequiredService<PopulationDbContext>());
+
+        return services;
+    }
+}

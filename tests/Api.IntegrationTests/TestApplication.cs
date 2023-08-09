@@ -13,11 +13,13 @@ public sealed class TestApplication :
     WebApplicationFactory<IApiMarker>, 
     IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _dbContainer = 
+    private readonly PostgreSqlContainer _dbContainer =
         new PostgreSqlBuilder()
-        .WithDatabase("TestDb")
-        .WithUsername("user")
-        .WithPassword("password").Build();
+            .WithImage(DockerImages.PostgreSql)
+            .WithDatabase("TestDb")
+            .WithUsername("user")
+            .WithPassword("password")
+            .Build();
     
     private DbConnection? _dbConnection;
     private Respawner? _respawner;
@@ -28,7 +30,7 @@ public sealed class TestApplication :
     public HttpClient HttpClient => _httpClient.Required();
     
     protected override void ConfigureWebHost(IWebHostBuilder builder) 
-        => builder.UseSetting("ConnectionStrings:PopulationDbContext", _dbContainer.GetConnectionString());
+        => builder.UseSetting("ConnectionStrings:PopulationDb", _dbContainer.GetConnectionString());
 
     public async Task ResetDatabaseAsync() 
         => await Respawner.ResetAsync(DbConnection);

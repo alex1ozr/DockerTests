@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using DockerTestsSample.Common.Exceptions;
-using DockerTestsSample.PopulationDbContext.Entities;
 using DockerTestsSample.Repositories.Abstract;
 using DockerTestsSample.Services.Abstract;
 using DockerTestsSample.Services.Dto;
+using DockerTestsSample.Store.Entities;
 using JetBrains.Annotations;
 
 namespace DockerTestsSample.Services.Concrete;

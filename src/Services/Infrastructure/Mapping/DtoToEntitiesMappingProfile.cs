@@ -1,6 +1,6 @@
 using AutoMapper;
-using DockerTestsSample.PopulationDbContext.Entities;
 using DockerTestsSample.Services.Dto;
+using DockerTestsSample.Store.Entities;
 
 namespace DockerTestsSample.Services.Infrastructure.Mapping;
 

@@ -1,4 +1,4 @@
-namespace DockerTestsSample.PopulationDbContext.Entities;
+namespace DockerTestsSample.Store.Entities;
 
 public sealed class Person
 {

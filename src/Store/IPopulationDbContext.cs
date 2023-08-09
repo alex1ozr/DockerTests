@@ -1,8 +1,8 @@
-using DockerTestsSample.PopulationDbContext.Entities;
+using DockerTestsSample.Store.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace DockerTestsSample.PopulationDbContext;
+namespace DockerTestsSample.Store;
 
 /// <summary>
 /// DbContext of people

@@ -1,8 +1,8 @@
-using DockerTestsSample.PopulationDbContext.Entities;
-using DockerTestsSample.PopulationDbContext.EntityConfigurations;
+using DockerTestsSample.Store.Entities;
+using DockerTestsSample.Store.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace DockerTestsSample.PopulationDbContext;
+namespace DockerTestsSample.Store;
 
 internal sealed class PopulationDbContext : DbContext, IPopulationDbContext
 {

@@ -11,7 +11,7 @@
     
     <ItemGroup>
       <ProjectReference Include="..\Services\Services.csproj" />
-      <ProjectReference Include="..\PopulationDbContext\PopulationDbContext.csproj" />
+      <ProjectReference Include="..\Store\Store.csproj" />
     </ItemGroup>
 
 </Project>

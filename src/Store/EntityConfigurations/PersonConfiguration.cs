@@ -1,9 +1,9 @@
-﻿using DockerTestsSample.PopulationDbContext.Entities;
+﻿using DockerTestsSample.Store.Entities;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DockerTestsSample.PopulationDbContext.EntityConfigurations;
+namespace DockerTestsSample.Store.EntityConfigurations;
 
 [UsedImplicitly]
 public sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
