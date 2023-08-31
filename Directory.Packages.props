@@ -5,6 +5,8 @@
     <EnablePackageVersionOverride>true</EnablePackageVersionOverride>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Build -->
+    <PackageVersion Include="Nuke.Common" Version="7.0.2" />
     <!-- Automapper -->
     <PackageVersion Include="AutoMapper" Version="12.0.1" />
     <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
