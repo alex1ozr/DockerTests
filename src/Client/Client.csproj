@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <IsPackable>True</IsPackable>
+    </PropertyGroup>
+
+</Project>

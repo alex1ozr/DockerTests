@@ -4,6 +4,7 @@ using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.Abstract;
 
+[Trait("Category", IntegrationTestCollection.Category)]
 [Collection(IntegrationTestCollection.Name)]
 public abstract class ControllerTestsBase: IAsyncLifetime
 {

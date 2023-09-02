@@ -6,17 +6,25 @@
     "build": {
       "type": "object",
       "properties": {
-        "Configuration": {
+        "Branch": {
           "type": "string",
-          "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
-          "enum": [
-            "Debug",
-            "Release"
-          ]
+          "description": "Branch name"
+        },
+        "BuildCounter": {
+          "type": "string",
+          "description": "Build counter"
         },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
+        },
+        "DockerRepositoriesUrl": {
+          "type": "string",
+          "description": "Docker repositories url"
+        },
+        "DockerRepositoryName": {
+          "type": "string",
+          "description": "Docker repository name"
         },
         "Help": {
           "type": "boolean",
@@ -47,6 +55,18 @@
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
         },
+        "NuGetApiKey": {
+          "type": "string",
+          "description": "NuGet API key"
+        },
+        "NuGetFeedName": {
+          "type": "string",
+          "description": "NuGet feed name"
+        },
+        "NuGetUrl": {
+          "type": "string",
+          "description": "NuGet url"
+        },
         "Partition": {
           "type": "string",
           "description": "Partition to use on CI"
@@ -72,11 +92,19 @@
           "items": {
             "type": "string",
             "enum": [
-              "Clean",
-              "Compile",
-              "Restore"
+              "BuildDockerfileWithArtifacts",
+              "CreateRelease",
+              "Default",
+              "PushDockerArtifacts",
+              "PushNuGetArtifacts",
+              "RunBuild",
+              "RunIntegrationTests"
             ]
           }
+        },
+        "Solution": {
+          "type": "string",
+          "description": "Path to a solution file that is automatically loaded"
         },
         "Target": {
           "type": "array",
@@ -84,9 +112,13 @@
           "items": {
             "type": "string",
             "enum": [
-              "Clean",
-              "Compile",
-              "Restore"
+              "BuildDockerfileWithArtifacts",
+              "CreateRelease",
+              "Default",
+              "PushDockerArtifacts",
+              "PushNuGetArtifacts",
+              "RunBuild",
+              "RunIntegrationTests"
             ]
           }
         },
