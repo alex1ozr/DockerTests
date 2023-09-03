@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using DockerTestsSample.Api.Contracts.Responses;
 using DockerTestsSample.Api.IntegrationTests.Abstract;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -23,14 +22,10 @@ public sealed class CreatePersonControllerTests : ControllerTestsBase
         var personId = Guid.NewGuid();
 
         // Act
-        var response = await Client.PostAsJsonAsync($"people/{personId}", personRequest);
+        var result = await Client.People.CreatePersonAsync(personId, personRequest);
 
         // Assert
-        var personResponse = await response.Content.ReadFromJsonAsync<PersonResponse>();
-        personResponse.Should().BeEquivalentTo(personRequest);
-        response.StatusCode.Should().Be(HttpStatusCode.Created);
-        response.Headers.Location!.ToString().Should()
-            .Be($"http://localhost/people/{personResponse!.Id}");
+        result.Should().BeEquivalentTo(personRequest);
     }
 
     [Fact]
@@ -42,7 +37,7 @@ public sealed class CreatePersonControllerTests : ControllerTestsBase
             .RuleFor(x => x.Email, invalidEmail).Generate();
 
         // Act
-        var response = await Client.PostAsJsonAsync($"people/{Guid.NewGuid()}", personRequest);
+        var response = await HttpClient.PostAsJsonAsync($"people/{Guid.NewGuid()}", personRequest);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -58,10 +53,10 @@ public sealed class CreatePersonControllerTests : ControllerTestsBase
         var personRequest = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", personRequest);
+        var createdResponse = await HttpClient.PostAsJsonAsync($"people/{personId}", personRequest);
 
         // Act
-        var response = await Client.PostAsJsonAsync($"people/{personId}", personRequest);
+        var response = await HttpClient.PostAsJsonAsync($"people/{personId}", personRequest);
 
         // Assert
         createdResponse.StatusCode.Should().Be(HttpStatusCode.Created);

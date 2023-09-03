@@ -5,8 +5,8 @@ namespace DockerTestsSample.Api.Contracts.Requests;
 public sealed class UpdatePersonRequest
 {
     [FromRoute(Name = "id")] 
-    public required Guid Id { get; init; }
+    public required Guid? Id { get; set; }
 
     [FromBody] 
-    public required PersonRequest Person { get; init; }
+    public required PersonRequest? Person { get; set; }
 }

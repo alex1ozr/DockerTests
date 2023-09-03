@@ -21,11 +21,11 @@ public sealed class GetPersonControllerTests : ControllerTestsBase
         var person = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", person);
+        var createdResponse = await HttpClient.PostAsJsonAsync($"people/{personId}", person);
         var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
 
         // Act
-        var response = await Client.GetAsync($"people/{createdPerson!.Id}");
+        var response = await HttpClient.GetAsync($"people/{createdPerson!.Id}");
 
         // Assert
         var retrievedPerson = await response.Content.ReadFromJsonAsync<PersonResponse>();
@@ -37,7 +37,7 @@ public sealed class GetPersonControllerTests : ControllerTestsBase
     public async Task Get_ReturnsNotFound_WhenPersonDoesNotExist()
     {
         // Act
-        var response = await Client.GetAsync($"people/{Guid.NewGuid()}");
+        var response = await HttpClient.GetAsync($"people/{Guid.NewGuid()}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

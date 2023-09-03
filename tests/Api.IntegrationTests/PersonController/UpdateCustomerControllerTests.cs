@@ -22,13 +22,13 @@ public sealed class UpdatePersonControllerTests : ControllerTestsBase
         var person = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", person);
+        var createdResponse = await HttpClient.PostAsJsonAsync($"people/{personId}", person);
         var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
 
         person = PersonGenerator.Generate();
 
         // Act
-        var response = await Client.PutAsJsonAsync($"people/{createdPerson!.Id}", person);
+        var response = await HttpClient.PutAsJsonAsync($"people/{createdPerson!.Id}", person);
 
         // Assert
         var personResponse = await response.Content.ReadFromJsonAsync<PersonResponse>();
@@ -43,7 +43,7 @@ public sealed class UpdatePersonControllerTests : ControllerTestsBase
         var person = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", person);
+        var createdResponse = await HttpClient.PostAsJsonAsync($"people/{personId}", person);
         var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
 
         const string invalidEmail = "someInvalidEmail";
@@ -51,7 +51,7 @@ public sealed class UpdatePersonControllerTests : ControllerTestsBase
             .RuleFor(x => x.Email, invalidEmail).Generate();
 
         // Act
-        var response = await Client.PutAsJsonAsync($"people/{createdPerson!.Id}", person);
+        var response = await HttpClient.PutAsJsonAsync($"people/{createdPerson!.Id}", person);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -67,7 +67,8 @@ public sealed class UpdatePersonControllerTests : ControllerTestsBase
         var person = PersonGenerator.Generate();
 
         // Act
-        var response = await Client.PutAsJsonAsync($"people/{Guid.NewGuid()}", person);
+        var result = await Client.People.UpdatePersonAsync(Guid.NewGuid(), person);
+        var response = await HttpClient.PutAsJsonAsync($"people/{Guid.NewGuid()}", person);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

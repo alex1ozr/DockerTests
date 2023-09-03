@@ -6,6 +6,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Autofac" />
       <PackageReference Include="FluentValidation" />
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
     </ItemGroup>

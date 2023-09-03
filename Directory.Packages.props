@@ -6,7 +6,12 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Build -->
+    <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="7.0.0" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Nuke.Common" Version="7.0.2" />
+    <PackageVersion Include="NSwag.MSBuild" Version="13.20.0" />
     <!-- Automapper -->
     <PackageVersion Include="AutoMapper" Version="12.0.1" />
     <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
@@ -15,9 +20,12 @@
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <!-- API hosting -->
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="7.0.1" />
+    <PackageVersion Include="Polly" Version="7.2.4" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <!-- DI -->
-    <PackageVersion Include="Autofac" Version="7.0.1" />
+    <PackageVersion Include="Autofac" Version="7.1.0" />
     <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <!-- Entity Framework Core -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
