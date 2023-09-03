@@ -96,23 +96,22 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "guid",
-              "nullable": true
-            }
-          },
-          {
-            "name": "Person",
-            "in": "query",
-            "schema": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/PersonRequest"
-                }
-              ]
-            }
+              "format": "guid"
+            },
+            "x-position": 1
           }
         ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonRequest"
+              }
+            }
+          },
+          "x-position": 2
+        },
         "responses": {
           "200": {
             "description": "",

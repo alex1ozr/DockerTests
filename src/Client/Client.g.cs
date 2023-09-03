@@ -37,11 +37,11 @@ namespace DockerTestsSample.Client.Implementations
         System.Threading.Tasks.Task<PersonResponse> GetPersonAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid? id, PersonRequest person);
+        System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid id, PersonRequest request);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid? id, PersonRequest person, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid id, PersonRequest request, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task DeletePersonAsync(System.Guid id);
@@ -255,23 +255,21 @@ namespace DockerTestsSample.Client.Implementations
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid? id, PersonRequest person)
+        public virtual System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid id, PersonRequest request)
         {
-            return UpdatePersonAsync(id, person, System.Threading.CancellationToken.None);
+            return UpdatePersonAsync(id, request, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid? id, PersonRequest person, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid id, PersonRequest request, System.Threading.CancellationToken cancellationToken)
         {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("people/{id}?");
+            urlBuilder_.Append("people/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
-            if (person != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("Person") + "=").Append(System.Uri.EscapeDataString(ConvertToString(person, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -279,7 +277,10 @@ namespace DockerTestsSample.Client.Implementations
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
