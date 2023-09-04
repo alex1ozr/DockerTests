@@ -4,10 +4,9 @@ using DockerTestsSample.Build.Infrastructure.BuildComponents;
 
 namespace DockerTestsSample.Build.Infrastructure.Extensions;
 
-internal static class IBaseBuildExtensions
+internal static partial class IBaseBuildExtensions
 {
-    private static readonly Regex PreReleaseSuffixRegex = new("[^0-9A-Za-z-]",
-        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+    private static readonly Regex PreReleaseSuffixRegex = GetPreReleaseSuffixRegex();
 
     public static string GetPreReleaseSuffix(this IBaseBuild build)
     {
@@ -25,4 +24,7 @@ internal static class IBaseBuildExtensions
         where T : class
         => build.TryGetValue(parameterExpression)
            ?? throw new InvalidOperationException($"Cannot get value for {parameterExpression}");
+    
+    [GeneratedRegex("[^0-9A-Za-z-]", RegexOptions.Compiled | RegexOptions.CultureInvariant)]
+    private static partial Regex GetPreReleaseSuffixRegex();
 }

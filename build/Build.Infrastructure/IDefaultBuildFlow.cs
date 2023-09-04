@@ -4,7 +4,7 @@ using Nuke.Common;
 namespace DockerTestsSample.Build.Infrastructure;
 
 /// <summary>
-/// Default build flow for all services
+/// Default build flow
 /// </summary>
 public interface IDefaultBuildFlow :
     IDockerBuild,

@@ -1,5 +1,12 @@
 ## About project
-Sample of Web API and tests with Database in Docker (using [TestContainers](https://github.com/testcontainers/testcontainers-dotnet) & [Respawn](https://github.com/jbogard/Respawn) & [Nuke build](https://nuke.build) libraries)
+Sample of Web API and tests with Database in Docker.
+
+Key features:
+- [x] ASP.NET Core 7.0
+- [x] Entity Framework Core 7.0 & PostgreSQL
+- [x] Build solution using [Nuke build](https://nuke.build)
+- [x] API client generation using [NSwag](https://github.com/RicoSuter/NSwag)
+- [x] Integration tests with Docker using [TestContainers](https://github.com/testcontainers/testcontainers-dotnet) and [Respawn](https://github.com/jbogard/Respawn)
 
 ## Projects to start
 ### Api
@@ -44,3 +51,10 @@ Execute the following command to see the interactive execution plan
 nuke --plan
 ```
 ![Build execution plan](build/Build execution plan.png)
+
+## API Client
+API client is generated using [NSwag](https://github.com/RicoSuter/NSwag) tool.
+
+It generates automatically when ClientGenerator project is built.
+
+See more details in NSwag documentation and [nswag.json](src/ClientGenerator/nswag.json) file.
