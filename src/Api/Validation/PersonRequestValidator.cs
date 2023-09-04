@@ -1,14 +1,13 @@
-﻿/*
-using DockerTestsSample.Api.Contracts.Requests;
+﻿using DockerTestsSample.Api.Contracts.Requests;
 using FluentValidation;
 using JetBrains.Annotations;
 
 namespace DockerTestsSample.Api.Validation;
 
 [UsedImplicitly]
-public sealed class UpdatePersonRequestValidator : AbstractValidator<PersonRequest>
+public sealed class PersonRequestValidator : AbstractValidator<PersonRequest>
 {
-    public UpdatePersonRequestValidator()
+    public PersonRequestValidator()
     {
         RuleFor(x => x.Name).NotEmpty();
         RuleFor(x => x.LastName).NotEmpty();
@@ -16,4 +15,3 @@ public sealed class UpdatePersonRequestValidator : AbstractValidator<PersonReque
         RuleFor(x => x.BirthDate).NotEmpty();
     }
 }
-*/

@@ -11,7 +11,6 @@ public abstract class ControllerTestsBase: IAsyncLifetime
 {
     private readonly Func<Task> _resetDatabase;
     
-    protected readonly HttpClient HttpClient;
     protected readonly ISampleClient Client;
     
     protected readonly Faker<PersonRequest> PersonGenerator = new Faker<PersonRequest>()
@@ -22,7 +21,6 @@ public abstract class ControllerTestsBase: IAsyncLifetime
 
     protected ControllerTestsBase(TestApplication testApplication)
     {
-        HttpClient = testApplication.HttpClient;
         Client = testApplication.SampleClient;
         _resetDatabase = testApplication.ResetDatabaseAsync;
     }

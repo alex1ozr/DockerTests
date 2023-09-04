@@ -1,8 +1,7 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using DockerTestsSample.Api.IntegrationTests.Abstract;
+﻿using DockerTestsSample.Api.IntegrationTests.Abstract;
+using DockerTestsSample.Client.Implementations;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
@@ -36,14 +35,12 @@ public sealed class CreatePersonControllerTests : ControllerTestsBase
         var personRequest = PersonGenerator.Clone()
             .RuleFor(x => x.Email, invalidEmail).Generate();
 
-        // Act
-        var response = await HttpClient.PostAsJsonAsync($"people/{Guid.NewGuid()}", personRequest);
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var error = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
-        error!.Status.Should().Be(400);
-        error.Errors.Should().ContainKey("Person.Email");
+        // Act, Assert
+        Func<Task> f = async () => await Client.People.CreatePersonAsync(Guid.NewGuid(), personRequest);
+        var exception = await f.Should().ThrowAsync<ApiException<ValidationProblemDetails>>();
+        var problemDetails = exception.Which.Result;
+        problemDetails.Status.Should().Be(StatusCodes.Status400BadRequest);
+        problemDetails.Errors.Should().ContainKey("Email");
     }
     
     [Fact]
@@ -52,17 +49,16 @@ public sealed class CreatePersonControllerTests : ControllerTestsBase
         // Arrange
         var personRequest = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
+        await Client.People.CreatePersonAsync(personId, personRequest);
 
-        var createdResponse = await HttpClient.PostAsJsonAsync($"people/{personId}", personRequest);
-
-        // Act
-        var response = await HttpClient.PostAsJsonAsync($"people/{personId}", personRequest);
-
-        // Assert
-        createdResponse.StatusCode.Should().Be(HttpStatusCode.Created);
-        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
-        var error = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-        error!.Status.Should().Be((int) HttpStatusCode.Conflict);
-        error.Type.Should().Be("person_already_exists");
+        // Act, Assert
+        Func<Task> f = async () => await Client.People.CreatePersonAsync(personId, personRequest);
+        var exception = await f.Should().ThrowAsync<ApiException<ProblemDetails>>();
+        exception.Which.Result.Should()
+            .BeEquivalentTo(new
+            {
+                Type = "person_already_exists",
+                Status = StatusCodes.Status409Conflict,
+            });
     }
 }

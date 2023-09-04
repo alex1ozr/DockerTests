@@ -1,9 +1,7 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using DockerTestsSample.Api.Contracts.Responses;
-using DockerTestsSample.Api.IntegrationTests.Abstract;
+﻿using DockerTestsSample.Api.IntegrationTests.Abstract;
+using DockerTestsSample.Client.Implementations;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
@@ -19,29 +17,31 @@ public sealed class DeletePersonControllerTests: ControllerTestsBase
     public async Task Delete_ReturnsOk_WhenPersonExists()
     {
         // Arrange
-        var person = PersonGenerator.Generate();
+        var personRequest = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
-        
-        var createdResponse = await HttpClient.PostAsJsonAsync($"people/{personId}", person);
-        var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
+
+        await Client.People.CreatePersonAsync(personId, personRequest);
 
         // Act
-        var response = await HttpClient.DeleteAsync($"people/{personId}");
+        await Client.People.DeletePersonAsync(personId);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        Func<Task> f = async () => await Client.People.GetPersonAsync(personId);
+        var exception = await f.Should().ThrowAsync<ApiException<ProblemDetails>>();
+        exception.Which
+            .Result
+            .Status.Should()
+            .Be(StatusCodes.Status404NotFound);
     }
 
     [Fact]
     public async Task Delete_ReturnsNotFound_WhenPersonDoesNotExist()
     {
-        // Act
-        var response = await HttpClient.DeleteAsync($"people/{Guid.NewGuid()}");
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        var error = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-        error!.Status.Should().Be((int) HttpStatusCode.NotFound);
-        error.Type.Should().Be("person_not_found");
+        Func<Task> f = async () => await Client.People.DeletePersonAsync(Guid.NewGuid());
+        var exception = await f.Should().ThrowAsync<ApiException<ProblemDetails>>();
+        exception.Which
+            .Result
+            .Status.Should()
+            .Be(StatusCodes.Status404NotFound);
     }
 }

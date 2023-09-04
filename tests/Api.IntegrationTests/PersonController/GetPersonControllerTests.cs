@@ -1,8 +1,7 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using DockerTestsSample.Api.Contracts.Responses;
-using DockerTestsSample.Api.IntegrationTests.Abstract;
+﻿using DockerTestsSample.Api.IntegrationTests.Abstract;
+using DockerTestsSample.Client.Implementations;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
@@ -18,28 +17,26 @@ public sealed class GetPersonControllerTests : ControllerTestsBase
     public async Task Get_ReturnsPerson_WhenPersonExists()
     {
         // Arrange
-        var person = PersonGenerator.Generate();
+        var personRequest = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await HttpClient.PostAsJsonAsync($"people/{personId}", person);
-        var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
+        await Client.People.CreatePersonAsync(personId, personRequest);
 
         // Act
-        var response = await HttpClient.GetAsync($"people/{createdPerson!.Id}");
+        var retrievedPerson = await Client.People.GetPersonAsync(personId);
 
         // Assert
-        var retrievedPerson = await response.Content.ReadFromJsonAsync<PersonResponse>();
-        retrievedPerson.Should().BeEquivalentTo(createdPerson);
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        retrievedPerson.Should().BeEquivalentTo(personRequest);
     }
 
     [Fact]
     public async Task Get_ReturnsNotFound_WhenPersonDoesNotExist()
     {
-        // Act
-        var response = await HttpClient.GetAsync($"people/{Guid.NewGuid()}");
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        Func<Task> f = async () => await Client.People.GetPersonAsync(Guid.NewGuid());
+        var exception = await f.Should().ThrowAsync<ApiException<ProblemDetails>>();
+        exception.Which
+            .Result
+            .Status.Should()
+            .Be(StatusCodes.Status404NotFound);
     }
 }

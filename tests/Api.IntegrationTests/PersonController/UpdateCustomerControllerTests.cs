@@ -1,9 +1,7 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using DockerTestsSample.Api.Contracts.Responses;
-using DockerTestsSample.Api.IntegrationTests.Abstract;
+﻿using DockerTestsSample.Api.IntegrationTests.Abstract;
+using DockerTestsSample.Client.Implementations;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace DockerTestsSample.Api.IntegrationTests.PersonController;
@@ -19,61 +17,55 @@ public sealed class UpdatePersonControllerTests : ControllerTestsBase
     public async Task Update_UpdatesUser_WhenDataIsValid()
     {
         // Arrange
-        var person = PersonGenerator.Generate();
+        var personRequest = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await HttpClient.PostAsJsonAsync($"people/{personId}", person);
-        var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
+        await Client.People.CreatePersonAsync(personId, personRequest);
 
-        person = PersonGenerator.Generate();
+        personRequest = PersonGenerator.Generate();
 
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"people/{createdPerson!.Id}", person);
+        var response = await Client.People.UpdatePersonAsync(personId, personRequest);
 
         // Assert
-        var personResponse = await response.Content.ReadFromJsonAsync<PersonResponse>();
-        personResponse.Should().BeEquivalentTo(person);
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.Should().BeEquivalentTo(personRequest);
     }
 
     [Fact]
     public async Task Update_ReturnsValidationError_WhenEmailIsInvalid()
     {
         // Arrange
-        var person = PersonGenerator.Generate();
+        var personRequest = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await HttpClient.PostAsJsonAsync($"people/{personId}", person);
-        var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
+        var createdPerson = await Client.People.CreatePersonAsync(personId, personRequest);
 
         const string invalidEmail = "someInvalidEmail";
-        person = PersonGenerator.Clone()
+        personRequest = PersonGenerator.Clone()
             .RuleFor(x => x.Email, invalidEmail).Generate();
 
-        // Act
-        var response = await HttpClient.PutAsJsonAsync($"people/{createdPerson!.Id}", person);
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var error = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
-        error!.Status.Should().Be(400);
-        error.Errors.Should().ContainKey("Person.Email");
+        // Act, Assert
+        Func<Task> f = async () => await Client.People.UpdatePersonAsync(createdPerson!.Id, personRequest);
+        var exception = await f.Should().ThrowAsync<ApiException<ValidationProblemDetails>>();
+        var problemDetails = exception.Which.Result;
+        problemDetails.Status.Should().Be(StatusCodes.Status400BadRequest);
+        problemDetails.Errors.Should().ContainKey("Email");
     }
     
     [Fact]
     public async Task Update_ReturnsError_WhenPersonDoesNotExist()
     {
         // Arrange
-        var person = PersonGenerator.Generate();
+        var personRequest = PersonGenerator.Generate();
 
-        // Act
-        var result = await Client.People.UpdatePersonAsync(Guid.NewGuid(), person);
-        var response = await HttpClient.PutAsJsonAsync($"people/{Guid.NewGuid()}", person);
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        var error = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-        error!.Status.Should().Be((int) HttpStatusCode.NotFound);
-        error.Type.Should().Be("person_not_found");
+        // Act, Assert
+        Func<Task> f = async () => await Client.People.UpdatePersonAsync(Guid.NewGuid(), personRequest);
+        var exception = await f.Should().ThrowAsync<ApiException<ProblemDetails>>();
+        exception.Which.Result.Should()
+            .BeEquivalentTo(new
+            {
+                Type = "person_not_found",
+                Status = StatusCodes.Status404NotFound,
+            });
     }
 }
