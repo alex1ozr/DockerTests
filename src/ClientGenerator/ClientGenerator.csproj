@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    
+    <PropertyGroup>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+    
+    <Target Name="NSwag" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
+        <Exec Command="$(NSwagExe_Net70) run nswag.json /variables:TargetDir=$(TargetDir)" />
+    </Target>
+    
+    <ItemGroup>
+        <PackageReference Include="NSwag.MSBuild" >
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\Api\Api.csproj" />
+    </ItemGroup>
+        
+</Project>
+

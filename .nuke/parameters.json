@@ -1,0 +1,11 @@
+{
+  "$schema": "./build.schema.json",
+  "Solution": "DockerTestsSample.sln",
+  "DockerRepositoriesUrl": "https://fake.docker.registry",
+  "Branch": "some-dev-branch",
+  "BuildCounter": "99",
+  "DockerRepositoryName": "some-docker-repo-name",
+  "NuGetUrl": "https://some.nuget.registry",
+  "NuGetFeedName": "some-nuget-feed-name",
+  "NuGetApiKey": "some-nuget-api-key"
+}

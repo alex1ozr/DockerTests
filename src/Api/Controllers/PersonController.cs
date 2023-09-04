@@ -2,6 +2,7 @@ using AutoMapper;
 using DockerTestsSample.Api.Contracts.Requests;
 using DockerTestsSample.Api.Contracts.Responses;
 using DockerTestsSample.Api.Infrastructure.Attributes;
+using DockerTestsSample.Api.Infrastructure.Mapping;
 using DockerTestsSample.Services.Abstract;
 using DockerTestsSample.Services.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +24,13 @@ public sealed class PersonController : ControllerBase
         _mapper = mapper;
     }
 
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    [HttpPost("{id:guid}")]
-    public async Task<ActionResult<PersonResponse>> Create([FromMultiSource] CreatePersonRequest request)
+    [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
+    [HttpPost("{id:guid}", Name = "CreatePerson")]
+    public async Task<IActionResult> Create([FromRoute] Guid id, [FromBody] PersonRequest request)
     {
-        var personDto = _mapper.Map<PersonDto>(request);
+        var personDto = request.ToPersonDto(id);
 
         await _personService.CreateAsync(personDto);
 
@@ -37,10 +39,10 @@ public sealed class PersonController : ControllerBase
         return CreatedAtAction("Get", new { response.Id }, response);
     }
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<PersonResponse>> Get([FromRoute] Guid id)
+    [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [HttpGet("{id:guid}", Name = "GetPerson")]
+    public async Task<IActionResult> Get([FromRoute] Guid id)
     {
         var personDto = await _personService.GetAsync(id);
 
@@ -53,21 +55,22 @@ public sealed class PersonController : ControllerBase
         return Ok(personResponse);
     }
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [HttpGet]
-    public async Task<ActionResult<IReadOnlyCollection<PersonResponse>>> GetAll()
+    [ProducesResponseType(typeof(IReadOnlyCollection<PersonResponse>), StatusCodes.Status200OK)]
+    [HttpGet(Name = "GetAllPeople")]
+    public async Task<IActionResult> GetAll()
     {
         var people = await _personService.GetAllAsync();
         var peopleResponse = _mapper.Map<IReadOnlyCollection<PersonResponse>>(people);
         return Ok(peopleResponse);
     }
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpPut("{id:guid}")]
-    public async Task<ActionResult<PersonResponse>> Update([FromMultiSource] UpdatePersonRequest request)
+    [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [HttpPut("{id:guid}", Name = "UpdatePerson")]
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] PersonRequest request)
     {
-        var personDto = _mapper.Map<PersonDto>(request);
+        var personDto = request.ToPersonDto(id);
         await _personService.UpdateAsync(personDto);
 
         var response = _mapper.Map<PersonResponse>(personDto);
@@ -75,8 +78,8 @@ public sealed class PersonController : ControllerBase
     }
 
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [HttpDelete("{id:guid}", Name = "DeletePerson")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
         await _personService.DeleteAsync(id);

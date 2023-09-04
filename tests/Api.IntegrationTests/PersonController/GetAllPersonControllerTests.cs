@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using DockerTestsSample.Api.Contracts.Responses;
-using DockerTestsSample.Api.IntegrationTests.Abstract;
+﻿using DockerTestsSample.Api.IntegrationTests.Abstract;
 using FluentAssertions;
 using Xunit;
 
@@ -18,30 +15,30 @@ public sealed class GetAllPersonControllerTests : ControllerTestsBase
     public async Task GetAll_ReturnsAllPeople_WhenPeopleExist()
     {
         // Arrange
-        var person = PersonGenerator.Generate();
+        var personRequest = PersonGenerator.Generate();
         var personId = Guid.NewGuid();
 
-        var createdResponse = await Client.PostAsJsonAsync($"people/{personId}", person);
-        var createdPerson = await createdResponse.Content.ReadFromJsonAsync<PersonResponse>();
+        await Client.People.CreatePersonAsync(personId, personRequest);
 
         // Act
-        var response = await Client.GetAsync("people");
+        var response = await Client.People.GetAllPeopleAsync();
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var peopleResponse = await response.Content.ReadFromJsonAsync<IReadOnlyCollection<PersonResponse>>();
-        peopleResponse!.Single().Should().BeEquivalentTo(createdPerson);
+        response.Should()
+            .NotBeNull()
+            .And
+            .BeEquivalentTo(new[] { personRequest });
     }
 
     [Fact]
     public async Task GetAll_ReturnsEmptyResult_WhenNoPeopleExist()
     {
         // Act
-        var response = await Client.GetAsync("people");
+        var response = await Client.People.GetAllPeopleAsync();
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var peopleResponse = await response.Content.ReadFromJsonAsync<IReadOnlyCollection<PersonResponse>>();
-        peopleResponse!.Should().BeEmpty();
+        response.Should()
+            .NotBeNull()
+            .And.BeEmpty();
     }
 }

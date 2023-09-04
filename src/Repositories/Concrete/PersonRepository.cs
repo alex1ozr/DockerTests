@@ -45,5 +45,6 @@ internal sealed class PersonRepository : IPersonRepository
                      ?? throw new PersonNotFoundException(id);
 
         _dbContext.People.Remove(entity);
+        await _dbContext.SaveChangesAsync(ct);
     }
 }

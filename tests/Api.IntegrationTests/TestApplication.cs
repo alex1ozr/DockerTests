@@ -1,7 +1,12 @@
 ﻿using System.Data.Common;
+using DockerTestsSample.Api.IntegrationTests.Extensions;
+using DockerTestsSample.Client.Abstract;
 using DockerTestsSample.Common.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Npgsql;
 using Respawn;
 using Testcontainers.PostgreSql;
@@ -29,8 +34,17 @@ public sealed class TestApplication :
     private Respawner Respawner => _respawner.Required();
     public HttpClient HttpClient => _httpClient.Required();
     
-    protected override void ConfigureWebHost(IWebHostBuilder builder) 
-        => builder.UseSetting("ConnectionStrings:PopulationDb", _dbContainer.GetConnectionString());
+    public ISampleClient SampleClient => Services.GetRequiredService<ISampleClient>();
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.ConfigureTestServices(services => services.AddSampleClientTest(CreateClient));
+        
+        builder
+            .UseSetting("ConnectionStrings:PopulationDb", _dbContainer.GetConnectionString())
+            .UseSetting("Logging:LogLevel:Default", LogLevel.Warning.ToString())
+            .UseSetting("Logging:LogLevel:Microsoft", LogLevel.Warning.ToString());
+    }
 
     public async Task ResetDatabaseAsync() 
         => await Respawner.ResetAsync(DbConnection);
