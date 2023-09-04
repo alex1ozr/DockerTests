@@ -50,7 +50,7 @@ Execute the following command to see the interactive execution plan
 ```shell
 nuke --plan
 ```
-![Build execution plan](./build/Build execution plan.png)
+![Build execution plan](build/BuildExecutionPlan.png)
 
 ## API Client
 API client is generated using [NSwag](https://github.com/RicoSuter/NSwag) tool.
