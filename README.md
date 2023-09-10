@@ -1,5 +1,5 @@
 ## About project
-Sample of Web API and tests with Database in Docker.
+Sample of Web API and tests with Database in Docker, along with "build as code" using Nuke Build.
 
 Key features:
 - [x] ASP.NET Core 7.0
