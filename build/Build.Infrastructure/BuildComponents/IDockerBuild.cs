@@ -60,5 +60,15 @@ public interface IDockerBuild : IBaseBuild
 
     // Workaround for logging issue in Nuke with Docker tasks
     // See more details here: https://nuke.build/faq
-    static void SetupLogging() => DockerLogger = (_, text) => Log.Debug(text);
+    static void SetupLogging() => DockerLogger = (_, s) =>
+    {
+        if (s.Contains("[build-error]"))
+        {
+            Log.Error(s);
+        }
+        else
+        {
+            Log.Debug(s);
+        }
+    };
 }

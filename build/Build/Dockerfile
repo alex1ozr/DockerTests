@@ -26,15 +26,22 @@ RUN echo Informational Version: ${InformationalVersion}
 WORKDIR /app/src
 COPY . .
 
-RUN dotnet restore \
-    && dotnet build \
+RUN dotnet restore
+RUN dotnet build \
     --configuration Release \
     --no-restore \
     --nologo \
+    -fl1 "/flp1:logFile=buildErrors.log;errorsonly" \
     -p:Version="${Version}" \
     -p:AssemblyVersion="${AssemblyVersion}" \
     -p:FileVersion="${FileVersion}" \
-    -p:InformationalVersion="${InformationalVersion}"
+    -p:InformationalVersion="${InformationalVersion}" \
+    || exit 0
+ 
+# Making sure that the build errors are logged as errors
+RUN sed -i -e 's/^/[build-error]/' buildErrors.log
+RUN cat buildErrors.log
+RUN test -s buildErrors.log && exit 1 || true
 
 ##################### Unit tests stage #####################
 FROM build AS test
