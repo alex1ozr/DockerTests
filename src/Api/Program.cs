@@ -72,9 +72,6 @@ app.UseSerilogRequestLogging();
 app.UseRouting();
 app.MapControllers();
 
-var mapper = app.Services.GetRequiredService<IMapper>();
-mapper.ConfigurationProvider.AssertConfigurationIsValid();
-
 var skipMigration = app.Services.GetRequiredService<IConfiguration>().GetSection("SkipMigration").Get<bool?>() ?? false;
 if (!skipMigration)
 {

@@ -27,8 +27,14 @@ docker run --name DockerTestsSample-postgres -e POSTGRES_PASSWORD=mysecretpasswo
 Starts the HTTP-server
 
 ### Tests
+Execute all tests
 ```shell
 dotnet test
+```
+
+Execute only integration tests
+```shell
+dotnet test --filter Category=IntegrationTests
 ```
 
 ## Create Db Context migrations

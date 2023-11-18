@@ -1,6 +1,5 @@
 ﻿using DockerTestsSample.Client.Implementations;
 using DockerTestsSample.Client.Options;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Polly;
