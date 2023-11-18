@@ -9,7 +9,7 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Register Db Context
     /// </summary>
-    public static IServiceCollection AddReviewContext(
+    public static IServiceCollection AddPopulationContext(
         this IServiceCollection services,
         string connectionStringName)
     {

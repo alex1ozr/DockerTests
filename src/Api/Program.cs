@@ -2,17 +2,17 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.OwnedInstances;
 using AutoMapper;
+using DockerTestsSample.Api;
 using DockerTestsSample.Api.Infrastructure.Filters;
 using DockerTestsSample.Api.Infrastructure.Mapping;
-using DockerTestsSample.Api.Validation;
-using DockerTestsSample.PopulationDbContext;
-using DockerTestsSample.Repositories.Infrastructure.DI;
-using DockerTestsSample.Services.Infrastructure.DI;
+using DockerTestsSample.Repositories.Infrastructure.Di;
+using DockerTestsSample.Services.Infrastructure.Di;
 using DockerTestsSample.Store;
 using DockerTestsSample.Store.Di;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -21,23 +21,27 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 
 builder.Configuration.AddEnvironmentVariables();
+builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 var config = builder.Configuration;
 config.AddEnvironmentVariables("PeopleApi_");
 
 builder.Services
-    .AddControllers()
+    .AddMvcCore()
+    .AddApiExplorer()
     .AddControllersAsServices()
     .AddMvcOptions(opt =>
     {
         opt.Filters.Add<DefaultExceptionFilter>();
-    });
+    })
+    .AddDataAnnotations();
+
 builder.Services.AddFluentValidationAutoValidation(x =>
 {
     x.DisableDataAnnotationsValidation = true;
 });
-builder.Services.AddValidatorsFromAssemblyContaining<CreatePersonRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<IApiMarker>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckl
 builder.Services.AddEndpointsApiExplorer();
@@ -47,7 +51,7 @@ builder.Services.AddSwaggerGen(c =>
         { Title = "My Sample Service API", Version = "v1" });
 });
 builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));
-builder.Services.AddReviewContext("PopulationDb");
+builder.Services.AddPopulationContext("PopulationDb");
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
@@ -63,6 +67,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseSerilogRequestLogging();
 
 app.UseRouting();
 app.MapControllers();

@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/people/{id}": {
+    "/v1/people/{id}": {
       "post": {
         "tags": [
           "Person"
@@ -203,7 +203,7 @@
         }
       }
     },
-    "/people": {
+    "/v1/people": {
       "get": {
         "tags": [
           "Person"

@@ -1,6 +1,6 @@
 ﻿using DockerTestsSample.Store.Entities;
 
-namespace DockerTestsSample.Repositories.Abstract;
+namespace DockerTestsSample.Repositories.People;
 
 public interface IPersonRepository: IDbRepository
 {

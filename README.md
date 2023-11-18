@@ -7,6 +7,20 @@ Key features:
 - [x] Build solution using [Nuke build](https://nuke.build)
 - [x] API client generation using [NSwag](https://github.com/RicoSuter/NSwag)
 - [x] Integration tests with Docker using [TestContainers](https://github.com/testcontainers/testcontainers-dotnet) and [Respawn](https://github.com/jbogard/Respawn)
+- [x] Logging using [Serilog](https://serilog.net)
+
+## Prerequisites
+
+### Main
+- [.NET 7.0 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
+- [Docker](https://www.docker.com/get-started)
+
+### Running API
+In order to run the API, you need to have a PostgreSQL database running. You can use Docker to run it.
+
+```shell
+docker run --name DockerTestsSample-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres:15.3-alpine
+```
 
 ## Projects to start
 ### Api

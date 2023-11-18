@@ -1,10 +1,9 @@
 ﻿using DockerTestsSample.Common.Exceptions;
-using DockerTestsSample.Repositories.Abstract;
 using DockerTestsSample.Store;
 using DockerTestsSample.Store.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DockerTestsSample.Repositories.Concrete;
+namespace DockerTestsSample.Repositories.People;
 
 internal sealed class PersonRepository : IPersonRepository
 {

@@ -1,16 +1,13 @@
 using AutoMapper;
-using DockerTestsSample.Api.Contracts.Requests;
-using DockerTestsSample.Api.Contracts.Responses;
-using DockerTestsSample.Api.Infrastructure.Attributes;
+using DockerTestsSample.Api.Contracts.People;
 using DockerTestsSample.Api.Infrastructure.Mapping;
-using DockerTestsSample.Services.Abstract;
-using DockerTestsSample.Services.Dto;
+using DockerTestsSample.Services.People;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DockerTestsSample.Api.Controllers;
 
 [ApiController]
-[Route("people/")]
+[Route("v1/people/")]
 public sealed class PersonController : ControllerBase
 {
     private readonly IPersonService _personService;

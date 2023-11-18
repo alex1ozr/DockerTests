@@ -1,6 +1,6 @@
 ﻿using DockerTestsSample.Services.Dto;
 
-namespace DockerTestsSample.Services.Abstract;
+namespace DockerTestsSample.Services.People;
 
 public interface IPersonService: IBusinessService
 {

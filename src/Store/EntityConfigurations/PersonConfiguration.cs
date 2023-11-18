@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace DockerTestsSample.Store.EntityConfigurations;
 
 [UsedImplicitly]
-public sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
+internal sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
 {
     public void Configure(EntityTypeBuilder<Person> builder)
     {

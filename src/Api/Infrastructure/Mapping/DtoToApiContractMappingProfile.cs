@@ -1,5 +1,5 @@
 using AutoMapper;
-using DockerTestsSample.Api.Contracts.Responses;
+using DockerTestsSample.Api.Contracts.People;
 using DockerTestsSample.Services.Dto;
 using JetBrains.Annotations;
 

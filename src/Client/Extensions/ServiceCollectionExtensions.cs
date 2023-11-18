@@ -16,7 +16,6 @@ public static class ServiceCollectionExtensions
             .HandleTransientHttpError()
             .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
     
-
     public static void AddSampleClient(this IServiceCollection services)
     {
         services.AddClientOptions();

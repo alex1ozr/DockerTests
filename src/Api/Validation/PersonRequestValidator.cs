@@ -1,4 +1,4 @@
-﻿using DockerTestsSample.Api.Contracts.Requests;
+﻿using DockerTestsSample.Api.Contracts.People;
 using FluentValidation;
 using JetBrains.Annotations;
 

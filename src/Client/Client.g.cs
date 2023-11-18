@@ -100,7 +100,7 @@ namespace DockerTestsSample.Client.Implementations
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("people/{id}");
+            urlBuilder_.Append("v1/people/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -200,7 +200,7 @@ namespace DockerTestsSample.Client.Implementations
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("people/{id}");
+            urlBuilder_.Append("v1/people/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -286,7 +286,7 @@ namespace DockerTestsSample.Client.Implementations
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("people/{id}");
+            urlBuilder_.Append("v1/people/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -386,7 +386,7 @@ namespace DockerTestsSample.Client.Implementations
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("people/{id}");
+            urlBuilder_.Append("v1/people/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -463,7 +463,7 @@ namespace DockerTestsSample.Client.Implementations
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonResponse>> GetAllPeopleAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("people");
+            urlBuilder_.Append("v1/people");
 
             var client_ = _httpClient;
             var disposeClient_ = false;

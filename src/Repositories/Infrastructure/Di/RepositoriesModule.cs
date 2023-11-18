@@ -1,7 +1,6 @@
 using Autofac;
-using DockerTestsSample.Repositories.Abstract;
 
-namespace DockerTestsSample.Repositories.Infrastructure.DI;
+namespace DockerTestsSample.Repositories.Infrastructure.Di;
 
 public sealed class RepositoriesModule : Module
 {
