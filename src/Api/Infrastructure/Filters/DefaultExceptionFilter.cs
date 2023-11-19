@@ -1,12 +1,14 @@
 ﻿using System.Text.Json;
 using DockerTestsSample.Api.Infrastructure.Problems;
 using DockerTestsSample.Common.Exceptions;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace DockerTestsSample.Api.Infrastructure.Filters;
 
+[UsedImplicitly]
 internal sealed class DefaultExceptionFilter : IExceptionFilter
 {
     private readonly ProblemDetailsFactory _problemDetailsFactory;

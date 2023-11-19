@@ -1,7 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.OwnedInstances;
-using AutoMapper;
 using DockerTestsSample.Api;
 using DockerTestsSample.Api.Infrastructure.Filters;
 using DockerTestsSample.Api.Infrastructure.Mapping;
@@ -72,7 +71,8 @@ app.UseSerilogRequestLogging();
 app.UseRouting();
 app.MapControllers();
 
-var skipMigration = app.Services.GetRequiredService<IConfiguration>().GetSection("SkipMigration").Get<bool?>() ?? false;
+var skipMigration = app.Services.GetRequiredService<IConfiguration>()
+    .GetSection("SkipMigration").Get<bool?>() ?? false;
 if (!skipMigration)
 {
     await using var dbContext = app.Services.GetRequiredService<Func<Owned<IPopulationDbContext>>>()();

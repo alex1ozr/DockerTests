@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DockerTestsSample.Common.Exceptions;
 using DockerTestsSample.Repositories.People;
-using DockerTestsSample.Services.Dto;
 using DockerTestsSample.Store.Entities;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;

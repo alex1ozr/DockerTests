@@ -1,4 +1,4 @@
-namespace DockerTestsSample.Services.Dto;
+namespace DockerTestsSample.Services.People;
 
 public sealed record class PersonDto
 {

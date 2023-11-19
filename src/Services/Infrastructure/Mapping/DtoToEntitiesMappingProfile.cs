@@ -1,5 +1,5 @@
 using AutoMapper;
-using DockerTestsSample.Services.Dto;
+using DockerTestsSample.Services.People;
 using DockerTestsSample.Store.Entities;
 
 namespace DockerTestsSample.Services.Infrastructure.Mapping;

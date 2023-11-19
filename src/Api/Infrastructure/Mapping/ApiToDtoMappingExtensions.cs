@@ -1,5 +1,5 @@
 using DockerTestsSample.Api.Contracts.People;
-using DockerTestsSample.Services.Dto;
+using DockerTestsSample.Services.People;
 
 namespace DockerTestsSample.Api.Infrastructure.Mapping;
 

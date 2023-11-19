@@ -4,7 +4,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Xunit;
 
-namespace DockerTestsSample.Api.IntegrationTests.PersonController;
+namespace DockerTestsSample.Api.IntegrationTests.People;
 
 public sealed class CreatePersonControllerTests : ControllerTestsBase
 {

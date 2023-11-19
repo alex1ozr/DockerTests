@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace DockerTestsSample.Api.IntegrationTests.PersonController;
+namespace DockerTestsSample.Api.IntegrationTests.People;
 
 public sealed class GetAllPersonControllerTests : ControllerTestsBase
 {

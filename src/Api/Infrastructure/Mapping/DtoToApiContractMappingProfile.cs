@@ -1,6 +1,6 @@
 using AutoMapper;
 using DockerTestsSample.Api.Contracts.People;
-using DockerTestsSample.Services.Dto;
+using DockerTestsSample.Services.People;
 using JetBrains.Annotations;
 
 namespace DockerTestsSample.Api.Infrastructure.Mapping;
