@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DockerTestsSample.Build.Infrastructure;
 using DockerTestsSample.Build.Infrastructure.Common;
+using DockerTestsSample.Build.Infrastructure.Docker;
 using DockerTestsSample.Build.Infrastructure.Extensions;
 using Nuke.Common;
 
@@ -12,9 +13,12 @@ class Build : NukeBuild, IDefaultBuildFlow
 
     public bool ExecuteIntegrationTests => true;
 
-    public IReadOnlyList<DockerImageInfo> DockerImages { get; } = new[]
+    public IReadOnlyList<IDockerImageInfo> DockerImages { get; } = new[]
     {
-        new DockerImageInfo(DockerImageName: "docker-tests-sample", DockerfileName: "Dockerfile"),
+        new GeneratedDockerImageInfo(DockerImageName: "docker-tests-sample", ProjectName: "Api"),
+
+        // Uncomment this line to build a Docker image from an existing Dockerfile:
+        //new DockerImageInfo(DockerImageName: "docker-tests-sample", DockerfileName: "Dockerfile"),
     };
 
     private Target RunBuild => _ => _
