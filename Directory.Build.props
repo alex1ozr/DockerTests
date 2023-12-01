@@ -10,16 +10,16 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <LangVersion>default</LangVersion>
-    <EmbedAllSources>true</EmbedAllSources>
+    <EmbedAllSources>True</EmbedAllSources>
     <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <IsPackable>false</IsPackable>
+    <DebugSymbols>True</DebugSymbols>
+    <IsPackable>False</IsPackable>
   </PropertyGroup>
   
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <!--Add analyzers-->

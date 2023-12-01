@@ -57,6 +57,7 @@ RUN dotnet test \
 ##################### Publish artifacts stage #####################
 FROM test AS publish
 
+{{ if PublishArtifacts == true }}
 RUN dotnet pack \
     --configuration Release \
     --output "/app/artifacts/nuget" \
@@ -64,6 +65,7 @@ RUN dotnet pack \
     --no-restore \
     --nologo \
     -p:PackageVersion="${Version}"
+{{ end }}
 
 RUN dotnet publish \
     {{ProjectToPublish}} \

@@ -17,7 +17,12 @@ internal static class DockerfileGenerator
         var filePath = baseDir / $"{assemblyName}-{Guid.NewGuid()}.Dockerfile";
         var projectRelativePath = project.Solution.Path.Parent.GetRelativePathTo(project.Path);
         
-        RenderDockerfileTemplate(filePath, new DockerfileModel(projectRelativePath, assemblyName));
+        var publishArtifacts = project.Solution
+            .AllProjects
+            .Select(x => x.GetMSBuildProject())
+            .Any(x => string.Equals(x.GetPropertyValue("IsPackable"), "true", StringComparison.OrdinalIgnoreCase));
+        
+        RenderDockerfileTemplate(filePath, new DockerfileModel(projectRelativePath, assemblyName, publishArtifacts));
 
         return filePath;
     }
