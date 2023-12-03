@@ -21,12 +21,6 @@ class Build : NukeBuild, IDefaultBuildFlow
         //new DockerImageInfo(DockerImageName: "docker-tests-sample", DockerfileName: "Dockerfile"),
     };
 
-    private Target RunBuild => _ => _
-        .DependsOn<IDefaultBuildFlow>(x => x.Default)
-        .Executes(() =>
-        {
-        });
-
     public static int Main()
-        => Execute<Build>(x => x.RunBuild);
+        => Execute<Build>(x => ((IDefaultBuildFlow)x).Default);
 }

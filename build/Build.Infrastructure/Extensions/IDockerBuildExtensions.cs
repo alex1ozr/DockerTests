@@ -92,10 +92,15 @@ internal static class IDockerBuildExtensions
         var dockerfilePath = DockerfileGenerator.GenerateDockerfile(project);
         Log.Information("Dockerfile ({DockerfilePath}) was generated", dockerfilePath);
 
-        RunDockerBuild(build, dockerImageInfo, dockerfilePath);
-
-        dockerfilePath.DeleteFile();
-        Log.Information("Dockerfile ({DockerfilePath}) was deleted", dockerfilePath);
+        try
+        {
+            RunDockerBuild(build, dockerImageInfo, dockerfilePath);
+        }
+        finally
+        {
+            dockerfilePath.DeleteFile();
+            Log.Information("Dockerfile ({DockerfilePath}) was deleted", dockerfilePath);
+        }
     }
 
     private static void RunDockerBuild(

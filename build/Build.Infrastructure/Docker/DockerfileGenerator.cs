@@ -13,7 +13,7 @@ internal static class DockerfileGenerator
         var msBuildProject = project.GetMSBuildProject();
         var assemblyName = msBuildProject.GetPropertyValue("AssemblyName");
 
-        AbsolutePath baseDir = AppDomain.CurrentDomain.BaseDirectory;
+        AbsolutePath baseDir = Path.GetTempPath();
         var filePath = baseDir / $"{assemblyName}-{Guid.NewGuid()}.Dockerfile";
         var projectRelativePath = project.Solution.Path.Parent.GetRelativePathTo(project.Path);
         
