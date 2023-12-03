@@ -5,6 +5,7 @@ Key features:
 - [x] ASP.NET Core 7.0
 - [x] Entity Framework Core 7.0 & PostgreSQL
 - [x] Build solution using [Nuke build](https://nuke.build)
+- [x] Dockerfile automatic generation support using [Scriban](https://github.com/scriban/scriban)
 - [x] API client generation using [NSwag](https://github.com/RicoSuter/NSwag)
 - [x] Integration tests with Docker using [TestContainers](https://github.com/testcontainers/testcontainers-dotnet) and [Respawn](https://github.com/jbogard/Respawn)
 - [x] Logging using [Serilog](https://serilog.net)
@@ -23,7 +24,7 @@ docker run --name DockerTestsSample-postgres -e POSTGRES_PASSWORD=mysecretpasswo
 ```
 
 ## Projects to start
-### Api
+### API
 Starts the HTTP-server
 
 ### Tests

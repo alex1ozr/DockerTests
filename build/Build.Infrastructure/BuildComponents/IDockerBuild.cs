@@ -1,4 +1,4 @@
-﻿using DockerTestsSample.Build.Infrastructure.Common;
+﻿using DockerTestsSample.Build.Infrastructure.Docker;
 using DockerTestsSample.Build.Infrastructure.Extensions;
 using Nuke.Common;
 using Serilog;
@@ -17,7 +17,7 @@ public interface IDockerBuild : IBaseBuild
 
     const string DockerContainerArtifactsPath = "/app/artifacts";
 
-    IReadOnlyList<DockerImageInfo> DockerImages { get; }
+    IReadOnlyList<IDockerImageInfo> DockerImages { get; }
 
     string GetDockerImageTag(string dockerImageName) => $"{RepositoriesUrl.Authority}/{RepositoryName}/{dockerImageName}:{Version.FullVersion}";
 
@@ -62,7 +62,7 @@ public interface IDockerBuild : IBaseBuild
     // See more details here: https://nuke.build/faq
     static void SetupLogging() => DockerLogger = (_, s) =>
     {
-        if (s.Contains("[build-error]"))
+        if (s.Contains("[build-error]") && !s.Contains("buildErrors.log"))
         {
             Log.Error(s);
         }

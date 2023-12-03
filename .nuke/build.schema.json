@@ -97,7 +97,6 @@
               "Default",
               "PushDockerArtifacts",
               "PushNuGetArtifacts",
-              "RunBuild",
               "RunIntegrationTests"
             ]
           }
@@ -117,7 +116,6 @@
               "Default",
               "PushDockerArtifacts",
               "PushNuGetArtifacts",
-              "RunBuild",
               "RunIntegrationTests"
             ]
           }
