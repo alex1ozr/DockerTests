@@ -15,7 +15,7 @@ internal static class DockerfileGenerator
 
         AbsolutePath baseDir = Path.GetTempPath();
         var filePath = baseDir / $"{assemblyName}-{Guid.NewGuid()}.Dockerfile";
-        var projectRelativePath = project.Solution.Path.Parent.GetRelativePathTo(project.Path);
+        var projectRelativePath = project.Solution.Path.Parent.GetUnixRelativePathTo(project.Path);
         
         var publishArtifacts = project.Solution
             .AllProjects
