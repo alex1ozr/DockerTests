@@ -82,4 +82,4 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 COPY --from=publish /app/artifacts /app/artifacts
 
-ENTRYPOINT ["dotnet", "{{AssemblyName}}"]
+ENTRYPOINT ["dotnet", "{{AssemblyName}}.dll"]
