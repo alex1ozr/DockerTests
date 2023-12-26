@@ -12,12 +12,6 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -69,7 +63,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseOpenApi();
     app.UseSwaggerUI();
 }
 app.UseSerilogRequestLogging();
