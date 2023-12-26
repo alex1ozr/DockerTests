@@ -81,8 +81,8 @@ var skipMigration = app.Services.GetRequiredService<IConfiguration>()
     .GetSection("SkipMigration").Get<bool?>() ?? false;
 if (!skipMigration)
 {
-    //await using var dbContext = app.Services.GetRequiredService<Func<Owned<IPopulationDbContext>>>()();
-    //await dbContext.Value.Database.MigrateAsync();
+    await using var dbContext = app.Services.GetRequiredService<Func<Owned<IPopulationDbContext>>>()();
+    await dbContext.Value.Database.MigrateAsync();
 }
 
 app.Run();
