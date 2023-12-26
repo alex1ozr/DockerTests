@@ -12,6 +12,12 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -44,10 +50,10 @@ builder.Services.AddValidatorsFromAssemblyContaining<IApiMarker>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckl
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddOpenApiDocument(settings =>
 {
-    c.SwaggerDoc("v1", new()
-        { Title = "My Sample Service API", Version = "v1" });
+    settings.Title = "Docker tests sample API";
+    settings.Version = "v1";
 });
 builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));
 builder.Services.AddPopulationContext("PopulationDb");
@@ -75,8 +81,8 @@ var skipMigration = app.Services.GetRequiredService<IConfiguration>()
     .GetSection("SkipMigration").Get<bool?>() ?? false;
 if (!skipMigration)
 {
-    await using var dbContext = app.Services.GetRequiredService<Func<Owned<IPopulationDbContext>>>()();
-    await dbContext.Value.Database.MigrateAsync();
+    //await using var dbContext = app.Services.GetRequiredService<Func<Owned<IPopulationDbContext>>>()();
+    //await dbContext.Value.Database.MigrateAsync();
 }
 
 app.Run();

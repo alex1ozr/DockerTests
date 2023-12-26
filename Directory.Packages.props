@@ -6,8 +6,12 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Build -->
+    <PackageVersion Include="NSwag.AspNetCore" Version="14.0.0-preview012" />
     <PackageVersion Include="Nuke.Common" Version="7.0.2" />
-    <PackageVersion Include="NSwag.MSBuild" Version="13.20.0" />
+    <PackageVersion Include="NSwag.MSBuild" Version="14.0.0-preview012">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageVersion>
     <PackageVersion Include="Scriban" Version="5.9.0" />
     <!-- Automapper -->
     <PackageVersion Include="AutoMapper" Version="12.0.1" />
