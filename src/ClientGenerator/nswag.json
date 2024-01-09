@@ -28,7 +28,7 @@
       "suppressClientInterfacesOutput": false,
       "clientBaseInterface": null,
       "injectHttpClient": true,
-      "disposeHttpClient": true,
+      "disposeHttpClient": false,
       "protectedMethods": [],
       "generateExceptionClasses": true,
       "exceptionClass": "ApiException",
