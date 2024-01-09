@@ -11,6 +11,7 @@ using DockerTestsSample.Store.Di;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using DockerTestsSample.Api.Infrastructure.Telemetry;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -52,6 +53,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));
 builder.Services.AddPopulationContext("PopulationDb");
 
+var tracingOtlpEndpoint = builder.Configuration.GetValue<Uri?>("Otlp:Endpoint");
+builder.Services
+    .AddTelemetry(builder.Environment.ApplicationName, tracingOtlpEndpoint);
+
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
     containerBuilder.RegisterModule<RepositoriesModule>();
@@ -70,6 +75,7 @@ app.UseSerilogRequestLogging();
 
 app.UseRouting();
 app.MapControllers();
+app.MapPrometheusScrapingEndpoint();
 
 var skipMigration = app.Services.GetRequiredService<IConfiguration>()
     .GetSection("SkipMigration").Get<bool?>() ?? false;

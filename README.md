@@ -9,6 +9,7 @@ Key features:
 - [x] API client generation using [NSwag](https://github.com/RicoSuter/NSwag)
 - [x] Integration tests with Docker using [TestContainers](https://github.com/testcontainers/testcontainers-dotnet) and [Respawn](https://github.com/jbogard/Respawn)
 - [x] Logging using [Serilog](https://serilog.net)
+- [x] Metrics using [OpenTelemetry](https://opentelemetry.io) and [Prometheus](https://prometheus.io)
 
 ## Prerequisites
 
@@ -79,3 +80,7 @@ API client is generated using [NSwag](https://github.com/RicoSuter/NSwag) tool.
 It generates automatically when ClientGenerator project is built.
 
 See more details in NSwag documentation and [nswag.json](src/ClientGenerator/nswag.json) file.
+
+## Metrics
+
+To see current metrics, go to http://localhost:5005/metrics

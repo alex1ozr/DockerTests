@@ -1,0 +1,81 @@
+version: '3.8'
+
+networks:
+  default:
+    name: 'dts'
+
+volumes:
+  dts-pg:
+  dts-logs:
+  dts-prom:
+  dts-grafana:
+
+services: 
+  postgres:
+    container_name: 'dts-pg'
+    image: 'postgres:15.3-alpine'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: 'mysecretpassword'
+    volumes:
+      - dts-pg:/var/lib/postgresql/data
+
+  opensearch:
+    container_name: 'dts-os'
+    image: 'opensearchproject/opensearch:2'
+    ports:
+      - '9200:9200'
+      - '9600:9600'
+    environment:
+      discovery.type: 'single-node'
+      plugins.security.disabled: 'true'
+    volumes:
+      - dts-logs:/usr/share/opensearch/data
+  
+  opensearch-dashboards:
+    container_name: 'dts-osd'
+    image: 'opensearchproject/opensearch-dashboards:2'
+    ports:
+      - '5601:5601'
+    environment:
+      OPENSEARCH_HOSTS: '["http://dts-os:9200"]'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: 'true'
+    depends_on:
+      - opensearch
+
+  prometheus:
+    container_name: 'dts-prom'
+    image: 'prom/prometheus:v2.45.2'
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - dts-prom:/prometheus
+
+  grafana:
+    container_name: 'dts-grafana'
+    image: 'grafana/grafana:10.0.10'
+    restart: unless-stopped
+    environment:
+      GF_INSTALL_PLUGINS: 'grafana-clock-panel,grafana-simple-json-datasource'
+    volumes:
+      - dts-grafana:/var/lib/grafana
+    ports:
+      - '3000:3000'
+    depends_on:
+      - prometheus
+
+  jaeger:
+    container_name: 'dts-jaeger'
+    image: 'jaegertracing/all-in-one:1.52'
+    environment:
+      COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+    ports:
+      - '5775:5775/udp'
+      - '6831:6831/udp'
+      - '6832:6832/udp'
+      - '5778:5778'
+      - '16686:16686'
+      - '14268:14268'
+      - '9411:9411'
