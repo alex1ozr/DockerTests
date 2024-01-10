@@ -2,7 +2,7 @@
 Sample of Web API and tests with Database in Docker, along with "build as code" using Nuke Build.
 
 Key features:
-- [x] ASP.NET Core 7.0
+- [x] ASP.NET Core 8.0
 - [x] Entity Framework Core 7.0 & PostgreSQL
 - [x] Build solution using [Nuke build](https://nuke.build)
 - [x] Dockerfile automatic generation support using [Scriban](https://github.com/scriban/scriban)
@@ -14,7 +14,7 @@ Key features:
 ## Prerequisites
 
 ### Main
-- [.NET 7.0 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Docker](https://www.docker.com/get-started)
 
 ### Running API

@@ -6,6 +6,7 @@
     
     <ItemGroup>
         <PackageReference Include="FluentValidation.AspNetCore" />
+        <PackageReference Include="NSwag.AspNetCore" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
         <PackageReference Include="OpenTelemetry.Exporter.Console" />
         <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
