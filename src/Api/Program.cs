@@ -44,10 +44,11 @@ builder.Services.AddValidatorsFromAssemblyContaining<IApiMarker>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckl
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddOpenApiDocument(settings =>
 {
-    c.SwaggerDoc("v1", new()
-        { Title = "My Sample Service API", Version = "v1" });
+    settings.Title = "Docker tests sample API";
+    settings.Version = "v1";
+    settings.UseRouteNameAsOperationId = true;
 });
 builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));
 builder.Services.AddPopulationContext("PopulationDb");
@@ -63,7 +64,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseOpenApi();
     app.UseSwaggerUI();
 }
 app.UseSerilogRequestLogging();

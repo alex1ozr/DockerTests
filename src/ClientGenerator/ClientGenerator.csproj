@@ -5,7 +5,9 @@
     </PropertyGroup>
     
     <Target Name="NSwag" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
-        <Exec Command="$(NSwagExe_Net70) run nswag.json /variables:TargetDir=$(TargetDir)" />
+        <Exec Command="$(NSwagExe_Net80) run nswag.json /variables:Configuration=$(Configuration)" 
+              EnvironmentVariables="SkipMigration=True"
+              ConsoleToMSBuild="true" />
     </Target>
     
     <ItemGroup>
@@ -18,6 +20,10 @@
     <ItemGroup>
       <ProjectReference Include="..\Api\Api.csproj" />
     </ItemGroup>
-        
+
+    <ItemGroup>
+        <None Include="nswag.json" />
+    </ItemGroup>
+    
 </Project>
 
