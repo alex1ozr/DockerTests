@@ -48,6 +48,7 @@ builder.Services.AddOpenApiDocument(settings =>
 {
     settings.Title = "Docker tests sample API";
     settings.Version = "v1";
+    settings.UseRouteNameAsOperationId = true;
 });
 builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));
 builder.Services.AddPopulationContext("PopulationDb");

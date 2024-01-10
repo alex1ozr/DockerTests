@@ -23,39 +23,39 @@ namespace DockerTestsSample.Client.Implementations
     public partial interface IPersonClient
     {
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonResponse> Person_CreateAsync(System.Guid id, PersonRequest request);
+        System.Threading.Tasks.Task<PersonResponse> CreatePersonAsync(System.Guid id, PersonRequest request);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonResponse> Person_CreateAsync(System.Guid id, PersonRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PersonResponse> CreatePersonAsync(System.Guid id, PersonRequest request, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonResponse> Person_GetAsync(System.Guid id);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonResponse> Person_GetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
-
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonResponse> Person_UpdateAsync(System.Guid id, PersonRequest request);
+        System.Threading.Tasks.Task<PersonResponse> GetPersonAsync(System.Guid id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonResponse> Person_UpdateAsync(System.Guid id, PersonRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PersonResponse> GetPersonAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Person_DeleteAsync(System.Guid id);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Person_DeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
-
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonResponse>> Person_GetAllAsync();
+        System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid id, PersonRequest request);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonResponse>> Person_GetAllAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid id, PersonRequest request, System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task DeletePersonAsync(System.Guid id);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task DeletePersonAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonResponse>> GetAllPeopleAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonResponse>> GetAllPeopleAsync(System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -86,14 +86,14 @@ namespace DockerTestsSample.Client.Implementations
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<PersonResponse> Person_CreateAsync(System.Guid id, PersonRequest request)
+        public virtual System.Threading.Tasks.Task<PersonResponse> CreatePersonAsync(System.Guid id, PersonRequest request)
         {
-            return Person_CreateAsync(id, request, System.Threading.CancellationToken.None);
+            return CreatePersonAsync(id, request, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<PersonResponse> Person_CreateAsync(System.Guid id, PersonRequest request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<PersonResponse> CreatePersonAsync(System.Guid id, PersonRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -193,14 +193,14 @@ namespace DockerTestsSample.Client.Implementations
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<PersonResponse> Person_GetAsync(System.Guid id)
+        public virtual System.Threading.Tasks.Task<PersonResponse> GetPersonAsync(System.Guid id)
         {
-            return Person_GetAsync(id, System.Threading.CancellationToken.None);
+            return GetPersonAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<PersonResponse> Person_GetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<PersonResponse> GetPersonAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -283,14 +283,14 @@ namespace DockerTestsSample.Client.Implementations
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<PersonResponse> Person_UpdateAsync(System.Guid id, PersonRequest request)
+        public virtual System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid id, PersonRequest request)
         {
-            return Person_UpdateAsync(id, request, System.Threading.CancellationToken.None);
+            return UpdatePersonAsync(id, request, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<PersonResponse> Person_UpdateAsync(System.Guid id, PersonRequest request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<PersonResponse> UpdatePersonAsync(System.Guid id, PersonRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -390,14 +390,14 @@ namespace DockerTestsSample.Client.Implementations
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task Person_DeleteAsync(System.Guid id)
+        public virtual System.Threading.Tasks.Task DeletePersonAsync(System.Guid id)
         {
-            return Person_DeleteAsync(id, System.Threading.CancellationToken.None);
+            return DeletePersonAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task Person_DeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task DeletePersonAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -474,14 +474,14 @@ namespace DockerTestsSample.Client.Implementations
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonResponse>> Person_GetAllAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonResponse>> GetAllPeopleAsync()
         {
-            return Person_GetAllAsync(System.Threading.CancellationToken.None);
+            return GetAllPeopleAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonResponse>> Person_GetAllAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonResponse>> GetAllPeopleAsync(System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;

@@ -11,7 +11,7 @@
         "tags": [
           "Person"
         ],
-        "operationId": "Person_Create",
+        "operationId": "CreatePerson",
         "parameters": [
           {
             "name": "id",
@@ -73,7 +73,7 @@
         "tags": [
           "Person"
         ],
-        "operationId": "Person_Get",
+        "operationId": "GetPerson",
         "parameters": [
           {
             "name": "id",
@@ -113,7 +113,7 @@
         "tags": [
           "Person"
         ],
-        "operationId": "Person_Update",
+        "operationId": "UpdatePerson",
         "parameters": [
           {
             "name": "id",
@@ -175,7 +175,7 @@
         "tags": [
           "Person"
         ],
-        "operationId": "Person_Delete",
+        "operationId": "DeletePerson",
         "parameters": [
           {
             "name": "id",
@@ -210,7 +210,7 @@
         "tags": [
           "Person"
         ],
-        "operationId": "Person_GetAll",
+        "operationId": "GetAllPeople",
         "responses": {
           "200": {
             "description": "",
