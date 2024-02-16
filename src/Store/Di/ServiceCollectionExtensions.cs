@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         string connectionStringName)
     {
-        services.AddDbContextPool<PopulationDbContext>((provider, builder) =>
+        services.AddDbContext<PopulationDbContext>((provider, builder) =>
         {
             var connectionString = provider.GetRequiredService<IConfiguration>()
                                        .GetConnectionString(connectionStringName)

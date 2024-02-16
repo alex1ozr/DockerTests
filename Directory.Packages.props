@@ -12,6 +12,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
+    <PackageVersion Include="OpenTelemetry.Exporter.Jaeger" Version="1.6.0-rc.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.10" />
     <PackageVersion Include="Scriban" Version="5.9.0" />
     <!-- Automapper -->
     <PackageVersion Include="AutoMapper" Version="12.0.1" />
@@ -29,6 +31,7 @@
     <!-- API hosting -->
     <PackageVersion Include="Polly" Version="8.2.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Grafana.Loki" Version="8.3.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <!-- DI -->
     <PackageVersion Include="Autofac" Version="7.1.0" />
@@ -48,6 +51,15 @@
     <PackageVersion Include="JetBrains.Annotations" Version="2023.2.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis" Version="4.7.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
+    <!-- Telemetry -->
+    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.7.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.7.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.7.0-rc.1" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.7.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.7.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.7.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Process" Version="0.5.0-beta.3" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.5.1" />
     <!-- Tests -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.14" />

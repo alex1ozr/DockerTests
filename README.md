@@ -8,7 +8,10 @@ Key features:
 - [x] Dockerfile automatic generation support using [Scriban](https://github.com/scriban/scriban)
 - [x] API client generation using [NSwag](https://github.com/RicoSuter/NSwag)
 - [x] Integration tests with Docker using [TestContainers](https://github.com/testcontainers/testcontainers-dotnet) and [Respawn](https://github.com/jbogard/Respawn)
-- [x] Logging using [Serilog](https://serilog.net)
+- [x] Docker Compose to run all prerequisites (PostgreSQL, Grafana, Jaeger, Prometheus)
+- [x] Logging using [Serilog](https://serilog.net) with [Loki](https://grafana.com/loki)
+- [x] Metrics using [OpenTelemetry](https://opentelemetry.io) and [Prometheus](https://prometheus.io)
+- [x] Tracing using [OpenTelemetry](https://opentelemetry.io) and [Jaeger](https://www.jaegertracing.io)
 
 ## Prerequisites
 
@@ -17,11 +20,15 @@ Key features:
 - [Docker](https://www.docker.com/get-started)
 
 ### Running API
-In order to run the API, you need to have a PostgreSQL database running. You can use Docker to run it.
+In order to run the API, you need to have a PostgreSQL database running. 
+You can use the provided [Docker Compose file](docker-compose.yml) to run it.
 
-```shell
-docker run --name DockerTestsSample-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres:15.3-alpine
-```
+List of services:
+- PostgreSQL: `localhost:5432`
+- Grafana: `http://localhost:3000`
+- Jaeger: `http://localhost:16686`
+- Prometheus: `http://localhost:9090`
+- Loki: `http://localhost:3100`
 
 ## Projects to start
 ### API
@@ -79,3 +86,15 @@ API client is generated using [NSwag](https://github.com/RicoSuter/NSwag) tool.
 It generates automatically when ClientGenerator project is built.
 
 See more details in NSwag documentation and [nswag.json](src/ClientGenerator/nswag.json) file.
+
+## Metrics
+
+To see current app metrics, go to http://localhost:5005/metrics
+
+## Grafana
+
+Grafana runs automatically using Docker Compose and is available at http://localhost:3000.
+It has three predefined data sources:
+- Prometheus
+- Loki
+- Jaeger

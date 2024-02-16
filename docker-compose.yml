@@ -1,0 +1,106 @@
+version: '3.8'
+
+networks:
+  default:
+    name: 'dts'
+
+volumes:
+  dts-pg:
+  dts-logs:
+  dts-prom:
+  dts-grafana:
+
+services: 
+  postgres:
+    container_name: 'dts-pg'
+    image: 'postgres:15.3-alpine'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: 'mysecretpassword'
+    volumes:
+      - dts-pg:/var/lib/postgresql/data
+
+  loki:
+    container_name: 'dts-loki'
+    image: 'grafana/loki:2.9.4'
+    ports:
+      - '3100:3100'
+    volumes:
+      - ./loki-config.yml:/etc/loki/local-config.yml
+    command: -config.file=/etc/loki/local-config.yaml
+    
+  prometheus:
+    container_name: 'dts-prom'
+    image: 'prom/prometheus:v2.45.2'
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - dts-prom:/prometheus
+
+  jaeger:
+    container_name: 'dts-jaeger'
+    image: 'jaegertracing/all-in-one:1.52'
+    environment:
+      COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+    ports:
+      - '5775:5775/udp'
+      - '6831:6831/udp'
+      - '6832:6832/udp'
+      - '5778:5778'
+      - '16686:16686'
+      - '14268:14268'
+      - '9411:9411'
+
+  grafana:
+    container_name: 'dts-grafana'
+    image: 'grafana/grafana:10.0.10'
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    entrypoint:
+      - sh
+      - -euc
+      - |
+        mkdir -p /etc/grafana/provisioning/datasources
+        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
+        apiVersion: 1
+        datasources:
+        - name: Loki
+          type: loki
+          access: proxy 
+          url: http://dts-loki:3100
+          basicAuth: false
+          isDefault: true
+          version: 1
+          editable: false
+        - name: Jaeger
+          type: jaeger
+          access: proxy
+          url: http://dts-jaeger:16686
+          basicAuth: false
+          isDefault: false
+          version: 1
+          editable: false
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://dts-prom:9090
+          basicAuth: false
+          isDefault: false
+          version: 1
+          editable: false
+        EOF
+        /run.sh
+    depends_on:
+      - loki
+      - prometheus
+      - jaeger
+    volumes:
+      - dts-grafana:/var/lib/grafana
