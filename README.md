@@ -8,8 +8,10 @@ Key features:
 - [x] Dockerfile automatic generation support using [Scriban](https://github.com/scriban/scriban)
 - [x] API client generation using [NSwag](https://github.com/RicoSuter/NSwag)
 - [x] Integration tests with Docker using [TestContainers](https://github.com/testcontainers/testcontainers-dotnet) and [Respawn](https://github.com/jbogard/Respawn)
-- [x] Logging using [Serilog](https://serilog.net)
+- [x] Docker Compose to run all prerequisites (PostgreSQL, Grafana, Jaeger, Prometheus)
+- [x] Logging using [Serilog](https://serilog.net) with [Loki](https://grafana.com/loki)
 - [x] Metrics using [OpenTelemetry](https://opentelemetry.io) and [Prometheus](https://prometheus.io)
+- [x] Tracing using [OpenTelemetry](https://opentelemetry.io) and [Jaeger](https://www.jaegertracing.io)
 
 ## Prerequisites
 
@@ -83,4 +85,12 @@ See more details in NSwag documentation and [nswag.json](src/ClientGenerator/nsw
 
 ## Metrics
 
-To see current metrics, go to http://localhost:5005/metrics
+To see current app metrics, go to http://localhost:5005/metrics
+
+## Grafana
+
+Grafana runs automatically using Docker Compose and is available at http://localhost:3000.
+It has three predefined data sources:
+- Prometheus
+- Loki
+- Jaeger

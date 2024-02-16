@@ -21,11 +21,14 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = Directory.GetCurrentDirectory()
 });
 
+var serviceName = builder.Environment.ApplicationName;
+
 builder.Configuration.AddEnvironmentVariables();
-//builder.Host.UseSerilog();
+
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ConfigureLogger(builder.Configuration, builder.Environment, serviceName));
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
-var serviceName = builder.Environment.ApplicationName;
 var config = builder.Configuration;
 config.AddEnvironmentVariables("PeopleApi_");
 
@@ -38,8 +41,6 @@ builder.Services
         opt.Filters.Add<DefaultExceptionFilter>();
     })
     .AddDataAnnotations();
-
-builder.Services.AddLogging(builder.Configuration, builder.Environment, serviceName);
 
 builder.Services.AddFluentValidationAutoValidation(x =>
 {
@@ -78,7 +79,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseSerilogRequestLogging();
+app.UseSerilogRequestLogging();
 
 app.UseRouting();
 app.MapControllers();
