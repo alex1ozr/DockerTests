@@ -84,10 +84,25 @@ services:
         - name: Loki
           type: loki
           access: proxy 
-          orgId: 1
           url: http://dts-loki:3100
           basicAuth: false
           isDefault: true
+          version: 1
+          editable: false
+        - name: Jaeger
+          type: jaeger
+          access: proxy
+          url: http://dts-jaeger:16686
+          basicAuth: false
+          isDefault: false
+          version: 1
+          editable: false
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://dts-prom:9090
+          basicAuth: false
+          isDefault: false
           version: 1
           editable: false
         EOF
@@ -95,6 +110,7 @@ services:
     depends_on:
       - loki
       - prometheus
+      - jaeger
     volumes:
       - dts-grafana:/var/lib/grafana
 
