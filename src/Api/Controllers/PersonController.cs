@@ -12,13 +12,16 @@ public sealed class PersonController : ControllerBase
 {
     private readonly IPersonService _personService;
     private readonly IMapper _mapper;
+    private readonly ILogger<PersonController> _logger;
 
     public PersonController(
         IPersonService personService,
-        IMapper mapper)
+        IMapper mapper,
+        ILogger<PersonController> logger)
     {
         _personService = personService;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status201Created)]
@@ -41,6 +44,7 @@ public sealed class PersonController : ControllerBase
     [HttpGet("{id:guid}", Name = "GetPerson")]
     public async Task<IActionResult> Get([FromRoute] Guid id)
     {
+        _logger.LogInformation("Getting person with id {Id}", id);
         var personDto = await _personService.GetAsync(id);
 
         if (personDto is null)
@@ -56,6 +60,7 @@ public sealed class PersonController : ControllerBase
     [HttpGet(Name = "GetAllPeople")]
     public async Task<IActionResult> GetAll()
     {
+        _logger.LogInformation("Getting all the people");
         var people = await _personService.GetAllAsync();
         var peopleResponse = _mapper.Map<IReadOnlyCollection<PersonResponse>>(people);
         return Ok(peopleResponse);

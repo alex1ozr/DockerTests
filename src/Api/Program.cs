@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.OwnedInstances;
 using DockerTestsSample.Api;
 using DockerTestsSample.Api.Infrastructure.Filters;
+using DockerTestsSample.Api.Infrastructure.Logging;
 using DockerTestsSample.Api.Infrastructure.Mapping;
 using DockerTestsSample.Repositories.Infrastructure.Di;
 using DockerTestsSample.Services.Infrastructure.Di;
@@ -21,9 +22,10 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 
 builder.Configuration.AddEnvironmentVariables();
-builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
+//builder.Host.UseSerilog();
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
+var serviceName = builder.Environment.ApplicationName;
 var config = builder.Configuration;
 config.AddEnvironmentVariables("PeopleApi_");
 
@@ -36,6 +38,8 @@ builder.Services
         opt.Filters.Add<DefaultExceptionFilter>();
     })
     .AddDataAnnotations();
+
+builder.Services.AddLogging(builder.Configuration, builder.Environment, serviceName);
 
 builder.Services.AddFluentValidationAutoValidation(x =>
 {
@@ -55,8 +59,9 @@ builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));
 builder.Services.AddPopulationContext("PopulationDb");
 
 var tracingOtlpEndpoint = builder.Configuration.GetValue<Uri?>("Otlp:Endpoint");
+var tracingJaegerEndpoint = builder.Configuration.GetValue<Uri?>("OpenTelemetry:Jaeger:Host");
 builder.Services
-    .AddTelemetry(builder.Environment.ApplicationName, tracingOtlpEndpoint);
+    .AddTelemetry(serviceName, tracingOtlpEndpoint, tracingJaegerEndpoint);
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
@@ -72,7 +77,8 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi();
     app.UseSwaggerUI();
 }
-app.UseSerilogRequestLogging();
+
+//app.UseSerilogRequestLogging();
 
 app.UseRouting();
 app.MapControllers();
