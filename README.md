@@ -20,11 +20,15 @@ Key features:
 - [Docker](https://www.docker.com/get-started)
 
 ### Running API
-In order to run the API, you need to have a PostgreSQL database running. You can use Docker to run it.
+In order to run the API, you need to have a PostgreSQL database running. 
+You can use the provided [Docker Compose file](docker-compose.yml) to run it.
 
-```shell
-docker run --name DockerTestsSample-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres:15.3-alpine
-```
+List of services:
+- PostgreSQL: `localhost:5432`
+- Grafana: `http://localhost:3000`
+- Jaeger: `http://localhost:16686`
+- Prometheus: `http://localhost:9090`
+- Loki: `http://localhost:3100`
 
 ## Projects to start
 ### API
