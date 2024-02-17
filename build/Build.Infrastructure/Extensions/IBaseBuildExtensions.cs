@@ -19,12 +19,12 @@ internal static partial class IBaseBuildExtensions
         var suffix = PreReleaseSuffixRegex.Replace(branch, "-");
         return $"-{suffix}";
     }
-    
+
     public static T GetValue<T>(this IBaseBuild build, Expression<Func<T>> parameterExpression)
         where T : class
         => build.TryGetValue(parameterExpression)
            ?? throw new InvalidOperationException($"Cannot get value for {parameterExpression}");
-    
+
     [GeneratedRegex("[^0-9A-Za-z-]", RegexOptions.Compiled | RegexOptions.CultureInvariant)]
     private static partial Regex GetPreReleaseSuffixRegex();
 }

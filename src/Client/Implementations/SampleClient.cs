@@ -2,7 +2,7 @@
 
 namespace DockerTestsSample.Client.Implementations;
 
-internal sealed class SampleClient: ISampleClient
+internal sealed class SampleClient : ISampleClient
 {
     public SampleClient(IPersonClient personClient)
     {

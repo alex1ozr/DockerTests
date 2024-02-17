@@ -26,7 +26,7 @@ internal static class ServiceCollectionExtensions
                     options.Filter += context =>
                         context.Request.Path.Value?.Contains("metrics", StringComparison.InvariantCultureIgnoreCase) == false
                         && context.Request.Path.Value?.Contains("swagger", StringComparison.InvariantCultureIgnoreCase) == false;
-                    
+
                     options.EnrichWithHttpResponse = (activity, response) =>
                         activity.AddTag("error", response.StatusCode >= 400);
                 });

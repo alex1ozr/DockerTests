@@ -1,6 +1,6 @@
 ﻿namespace DockerTestsSample.Services.People;
 
-public interface IPersonService: IBusinessService
+public interface IPersonService : IBusinessService
 {
     Task CreateAsync(PersonDto person, CancellationToken ct = default);
 

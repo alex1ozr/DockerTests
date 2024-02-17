@@ -8,7 +8,7 @@ namespace DockerTestsSample.UnitTests.AutoMapper;
 /// <summary>
 /// Tests for Automapper configuration
 /// </summary>
-public sealed class AutoMapperTests: IClassFixture<ContainerFixture>
+public sealed class AutoMapperTests : IClassFixture<ContainerFixture>
 {
     private readonly IServiceProvider _container;
 
@@ -16,7 +16,7 @@ public sealed class AutoMapperTests: IClassFixture<ContainerFixture>
     {
         _container = fixture.Container;
     }
-    
+
     [Fact(DisplayName = "Assert configuration valid")]
     public void AssertConfiguration_ShouldBeValid()
     {

@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
             // Handle HttpRequestExceptions, 408 and 5xx status codes
             .HandleTransientHttpError()
             .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
-    
+
     public static void AddSampleClient(this IServiceCollection services)
     {
         services.AddClientOptions();

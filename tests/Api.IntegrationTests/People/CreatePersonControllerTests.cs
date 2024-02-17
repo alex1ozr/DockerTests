@@ -42,7 +42,7 @@ public sealed class CreatePersonControllerTests : ControllerTestsBase
         problemDetails.Status.Should().Be(StatusCodes.Status400BadRequest);
         problemDetails.Errors.Should().ContainKey("Email");
     }
-    
+
     [Fact]
     public async Task Create_ReturnsError_WhenPersonAlreadyExists()
     {

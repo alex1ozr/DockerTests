@@ -51,7 +51,7 @@ public sealed class UpdatePersonControllerTests : ControllerTestsBase
         problemDetails.Status.Should().Be(StatusCodes.Status400BadRequest);
         problemDetails.Errors.Should().ContainKey("Email");
     }
-    
+
     [Fact]
     public async Task Update_ReturnsError_WhenPersonDoesNotExist()
     {

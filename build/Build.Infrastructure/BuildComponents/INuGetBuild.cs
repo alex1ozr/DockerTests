@@ -6,7 +6,7 @@ using Serilog;
 namespace DockerTestsSample.Build.Infrastructure.BuildComponents;
 
 [ParameterPrefix(nameof(NuGet))]
-public interface INuGetBuild: IBaseBuild
+public interface INuGetBuild : IBaseBuild
 {
     [Parameter("NuGet url"), Required]
     Uri Url => this.GetValue(() => Url);
@@ -19,9 +19,9 @@ public interface INuGetBuild: IBaseBuild
     string ApiKey => this.GetValue(() => ApiKey);
 
     AbsolutePath NuGetArtifactsPath => ArtifactsPath / "nuget";
-    
+
     Target PushNuGetArtifacts => _ => _
-        .TryDependsOn<IIntegrationTestsBuild>(x=> x.RunIntegrationTests)
+        .TryDependsOn<IIntegrationTestsBuild>(x => x.RunIntegrationTests)
         .Executes(() =>
         {
             // Here is the place to publish NuGet artifacts to your NuGet feed
@@ -39,7 +39,7 @@ public interface INuGetBuild: IBaseBuild
 
             var pushedArtifacts = NuGetArtifactsPath.GetFiles("*.nupkg")
                 .Select(x => x.Name);
-            
+
             Log.Information("Nuget artifacts were successfully pushed: {Artifacts}", pushedArtifacts);
         });
 }

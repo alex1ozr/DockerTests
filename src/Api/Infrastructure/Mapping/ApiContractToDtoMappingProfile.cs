@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 namespace DockerTestsSample.Api.Infrastructure.Mapping;
 
 [UsedImplicitly]
-internal sealed class ApiContractToDtoMappingProfile: Profile
+internal sealed class ApiContractToDtoMappingProfile : Profile
 {
     public ApiContractToDtoMappingProfile()
     {

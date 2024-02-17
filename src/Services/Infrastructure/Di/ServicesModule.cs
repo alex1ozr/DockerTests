@@ -10,9 +10,9 @@ public sealed class ServicesModule : Module
     protected override void Load(ContainerBuilder builder)
     {
         var serviceCollection = new ServiceCollection();
-        serviceCollection.AddAutoMapper(typeof(DtoToEntitiesMappingProfile));        
+        serviceCollection.AddAutoMapper(typeof(DtoToEntitiesMappingProfile));
         builder.Populate(serviceCollection);
-        
+
         builder
             .RegisterAssemblyTypes(ThisAssembly)
             .AssignableTo<IBusinessService>()

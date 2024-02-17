@@ -5,7 +5,7 @@ namespace DockerTestsSample.Build.Infrastructure.Docker;
 public sealed class DockerfileModel : ScriptObject
 {
     public DockerfileModel(
-        string projectToPublish, 
+        string projectToPublish,
         string assemblyName,
         bool publishArtifacts)
     {

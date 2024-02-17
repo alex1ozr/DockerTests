@@ -31,7 +31,7 @@ public sealed class PersonRequestValidatorTests
         result.IsValid.Should().BeFalse();
         result.Errors.Should().OnlyContain(x => x.PropertyName == nameof(PersonRequest.Name));
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -44,7 +44,7 @@ public sealed class PersonRequestValidatorTests
         result.IsValid.Should().BeFalse();
         result.Errors.Should().OnlyContain(x => x.PropertyName == nameof(PersonRequest.LastName));
     }
-    
+
     [Fact]
     public void Validate_WhenEmailIsEmpty_ShouldReturnFailure()
     {

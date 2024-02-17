@@ -13,7 +13,7 @@ public interface IPopulationDbContext
     /// All the people
     /// </summary>
     DbSet<Person> People { get; }
-    
+
     /// <summary>
     /// Saves all changes made in this context to the database.
     /// </summary>

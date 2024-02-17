@@ -53,7 +53,7 @@ public interface IDockerBuild : IBaseBuild
             foreach (var dockerImageInfo in DockerImages)
             {
                 // DockerPush(settings => settings.SetName(GetDockerImageNameTag(dockerImageInfo.DockerImageName)));
-                Log.Information("Docker image {DockerImageName} was pushed to {Url}", 
+                Log.Information("Docker image {DockerImageName} was pushed to {Url}",
                     dockerImageInfo.DockerImageName, GetDockerImageTag(dockerImageInfo.DockerImageName));
             }
         });

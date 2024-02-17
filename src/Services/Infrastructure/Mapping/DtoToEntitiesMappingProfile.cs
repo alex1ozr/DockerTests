@@ -4,7 +4,7 @@ using DockerTestsSample.Store.Entities;
 
 namespace DockerTestsSample.Services.Infrastructure.Mapping;
 
-public sealed class DtoToEntitiesMappingProfile: Profile
+public sealed class DtoToEntitiesMappingProfile : Profile
 {
     public DtoToEntitiesMappingProfile()
     {

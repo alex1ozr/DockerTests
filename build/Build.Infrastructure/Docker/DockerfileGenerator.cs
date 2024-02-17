@@ -16,12 +16,12 @@ internal static class DockerfileGenerator
         AbsolutePath baseDir = Path.GetTempPath();
         var filePath = baseDir / $"{assemblyName}-{Guid.NewGuid()}.Dockerfile";
         var projectRelativePath = project.Solution.Path.Parent.GetUnixRelativePathTo(project.Path);
-        
+
         var publishArtifacts = project.Solution
             .AllProjects
             .Select(x => x.GetMSBuildProject())
             .Any(x => string.Equals(x.GetPropertyValue("IsPackable"), "true", StringComparison.OrdinalIgnoreCase));
-        
+
         RenderDockerfileTemplate(filePath, new DockerfileModel(projectRelativePath, assemblyName, publishArtifacts));
 
         return filePath;
@@ -33,7 +33,7 @@ internal static class DockerfileGenerator
         var template = Template.Parse(text, filePath);
 
         var result = template.Render(model, member => member.Name);
-        
+
         File.WriteAllText(filePath, result, Encoding.UTF8);
     }
 

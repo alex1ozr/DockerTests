@@ -34,7 +34,7 @@ internal sealed class PersonService : IPersonService
 
         entity = _mapper.Map<Person>(personDto);
         await _personRepository.CreateAsync(entity, ct);
-        
+
         _logger.LogInformation("Person with Id {PersonId} was created", personDto.Id);
     }
 
@@ -57,7 +57,7 @@ internal sealed class PersonService : IPersonService
 
         _mapper.Map(personDto, entity);
         await _personRepository.UpdateAsync(entity, ct);
-        
+
         _logger.LogInformation("Person with Id {PersonId} was updated", personDto.Id);
     }
 
@@ -69,7 +69,7 @@ internal sealed class PersonService : IPersonService
         }
 
         await _personRepository.DeleteAsync(id, ct);
-        
+
         _logger.LogInformation("Person with Id {PersonId} was deleted", id);
     }
 }

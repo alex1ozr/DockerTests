@@ -7,12 +7,12 @@ namespace DockerTestsSample.Api.IntegrationTests.Abstract;
 
 [Trait("Category", IntegrationTestCollection.Category)]
 [Collection(IntegrationTestCollection.Name)]
-public abstract class ControllerTestsBase: IAsyncLifetime
+public abstract class ControllerTestsBase : IAsyncLifetime
 {
     private readonly Func<Task> _resetDatabase;
-    
+
     protected readonly ISampleClient Client;
-    
+
     protected readonly Faker<PersonRequest> PersonGenerator = new Faker<PersonRequest>()
         .RuleFor(x => x.Email, faker => faker.Person.Email)
         .RuleFor(x => x.Name, faker => faker.Person.FirstName)
