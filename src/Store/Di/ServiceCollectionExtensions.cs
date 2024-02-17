@@ -7,7 +7,7 @@ namespace DockerTestsSample.Store.Di;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Register Db Context
+    /// Register the Db Context
     /// </summary>
     public static IServiceCollection AddPopulationContext(
         this IServiceCollection services,

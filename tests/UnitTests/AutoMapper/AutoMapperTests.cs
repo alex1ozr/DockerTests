@@ -3,7 +3,7 @@ using DockerTestsSample.UnitTests.Di;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace DockerTestsSample.UnitTests.Automapper;
+namespace DockerTestsSample.UnitTests.AutoMapper;
 
 /// <summary>
 /// Tests for Automapper configuration

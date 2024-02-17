@@ -52,7 +52,7 @@ dotnet test --filter Category=IntegrationTests
 dotnet tool install --global dotnet-ef
 
 #Create schema migration
-dotnet ef migrations add InitialMigration --startup-project src/Api -p src/PopulationDbContext -c PopulationDbContext
+dotnet ef migrations add <Name of your migration> --startup-project src/Api -p src/Store -c PopulationDbContext
 ```
 ## Build solution using Nuke build
 
