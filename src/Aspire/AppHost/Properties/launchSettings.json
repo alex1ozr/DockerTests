@@ -12,6 +12,7 @@
         "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:16077",
         "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT": "http://localhost:16077",
         "OTEL_EXPORTER_OTLP_LOGS_ENDPOINT": "http://localhost:16077",
+        "OTEL_EXPORTER_OTLP_LOGS_PROTOCOL": "grpc",
         "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT": "http://localhost:16077"
       }
     }

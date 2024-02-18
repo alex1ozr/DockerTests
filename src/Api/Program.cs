@@ -3,16 +3,15 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.OwnedInstances;
 using DockerTestsSample.Api;
 using DockerTestsSample.Api.Infrastructure.Filters;
-using DockerTestsSample.Api.Infrastructure.Logging;
 using DockerTestsSample.Api.Infrastructure.Mapping;
 using DockerTestsSample.Repositories.Infrastructure.Di;
+using DockerTestsSample.ServiceDefaults;
 using DockerTestsSample.Services.Infrastructure.Di;
 using DockerTestsSample.Store;
 using DockerTestsSample.Store.Di;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -26,9 +25,6 @@ var serviceName = builder.Environment.ApplicationName;
 
 builder.Configuration.AddEnvironmentVariables();
 
-/*
-builder.Host.UseSerilog((context, services, configuration) => configuration
-    .ConfigureLogger(builder.Configuration, builder.Environment, serviceName));*/
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 var config = builder.Configuration;
@@ -77,8 +73,6 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi();
     app.UseSwaggerUI();
 }
-
-app.UseSerilogRequestLogging();
 
 app.UseRouting();
 app.MapControllers();
