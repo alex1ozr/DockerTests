@@ -28,6 +28,7 @@
     </ItemGroup>
     
     <ItemGroup>
+      <ProjectReference Include="..\Aspire\ServiceDefaults\ServiceDefaults.csproj" />
       <ProjectReference Include="..\Services\Services.csproj" />
       <ProjectReference Include="..\Store\Store.csproj" />
     </ItemGroup>

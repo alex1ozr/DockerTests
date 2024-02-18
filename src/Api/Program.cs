@@ -21,6 +21,8 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = Directory.GetCurrentDirectory()
 });
 
+builder.AddServiceDefaults();
+
 var serviceName = builder.Environment.ApplicationName;
 
 builder.Configuration.AddEnvironmentVariables();
@@ -71,6 +73,8 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 });
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
