@@ -21,14 +21,9 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 
 builder.AddServiceDefaults();
 
-var serviceName = builder.Environment.ApplicationName;
-
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-
-var config = builder.Configuration;
-config.AddEnvironmentVariables("PeopleApi_");
 
 builder.Services
     .AddMvcCore()
