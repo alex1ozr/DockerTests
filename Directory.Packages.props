@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Build -->
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics" Version="8.0.0" />
     <PackageVersion Include="NSwag.AspNetCore" Version="14.0.3" />
     <PackageVersion Include="Nuke.Common" Version="7.0.2" />
     <PackageVersion Include="NSwag.MSBuild" Version="14.0.3">
@@ -29,11 +30,12 @@
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="8.1.0" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="8.0.0-preview.3.24105.21" />
-
     <!-- API hosting -->
     <PackageVersion Include="Polly" Version="8.2.0" />
+    <PackageVersion Include="Serilog" Version="3.1.1" />
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.0" />
     <PackageVersion Include="Serilog.Sinks.Grafana.Loki" Version="8.3.0" />
+    <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="1.2.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <!-- DI -->
     <PackageVersion Include="Autofac" Version="8.0.0" />

@@ -1,11 +1,16 @@
+using DockerTestsSample.ServiceDefaults;
+using DockerTestsSample.ServiceDefaults.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Serilog;
 
 namespace Microsoft.Extensions.Hosting
 {
@@ -13,7 +18,11 @@ namespace Microsoft.Extensions.Hosting
     {
         public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
         {
-            builder.ConfigureOpenTelemetry();
+            var serviceName = builder.Environment.ApplicationName;
+            
+            Log.Logger.ConfigureSerilogBootstrapLogger();
+            builder.ConfigureSerilog(serviceName);
+            builder.ConfigureOpenTelemetry(serviceName);
 
             builder.AddDefaultHealthChecks();
 
@@ -31,19 +40,28 @@ namespace Microsoft.Extensions.Hosting
             return builder;
         }
 
-        public static IHostApplicationBuilder ConfigureOpenTelemetry(this IHostApplicationBuilder builder)
+        public static IHostApplicationBuilder ConfigureOpenTelemetry(
+            this IHostApplicationBuilder builder,
+            string serviceName)
         {
+            /*
             builder.Logging.AddOpenTelemetry(logging =>
             {
                 logging.IncludeFormattedMessage = true;
                 logging.IncludeScopes = true;
             });
+            */
 
             builder.Services.AddOpenTelemetry()
+                .ConfigureResource(resource => resource.AddService(serviceName))
                 .WithMetrics(metrics =>
                 {
-                    metrics.AddRuntimeInstrumentation()
-                           .AddBuiltInMeters();
+                    metrics
+                        .AddRuntimeInstrumentation()
+                        .AddBuiltInMeters()
+                        .AddProcessInstrumentation()
+                        .AddAspNetCoreInstrumentation()
+                        .AddPrometheusExporter();
                 })
                 .WithTracing(tracing =>
                 {
@@ -53,30 +71,66 @@ namespace Microsoft.Extensions.Hosting
                         tracing.SetSampler(new AlwaysOnSampler());
                     }
 
-                    tracing.AddAspNetCoreInstrumentation()
-                           .AddGrpcClientInstrumentation()
-                           .AddHttpClientInstrumentation();
+                    tracing.AddAspNetCoreInstrumentation(options =>
+                        {
+                            options.Filter += context =>
+                                context.Request.Path.Value?.Contains("metrics",
+                                    StringComparison.InvariantCultureIgnoreCase) == false
+                                && context.Request.Path.Value?.Contains("swagger",
+                                    StringComparison.InvariantCultureIgnoreCase) == false;
+
+                            options.EnrichWithHttpResponse = (activity, response) =>
+                                activity.AddTag("error", response.StatusCode >= 400);
+                        })
+                        .AddGrpcClientInstrumentation()
+                        .AddHttpClientInstrumentation()
+                        .AddEntityFrameworkCoreInstrumentation(options => options.SetDbStatementForText = true);
                 });
-
+            
             builder.AddOpenTelemetryExporters();
-
+            
             return builder;
         }
-
+        
         private static IHostApplicationBuilder AddOpenTelemetryExporters(this IHostApplicationBuilder builder)
         {
-            var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
-
-            if (useOtlpExporter)
+            var otlpExporterTracesEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"];
+            if (!string.IsNullOrWhiteSpace(otlpExporterTracesEndpoint))
             {
-                builder.Services.Configure<OpenTelemetryLoggerOptions>(logging => logging.AddOtlpExporter());
-                builder.Services.ConfigureOpenTelemetryMeterProvider(metrics => metrics.AddOtlpExporter());
-                builder.Services.ConfigureOpenTelemetryTracerProvider(tracing => tracing.AddOtlpExporter());
+                Console.WriteLine("Using OTLP Traces exporter");
+                builder.Services.ConfigureOpenTelemetryTracerProvider(tracing => tracing.AddOtlpExporter(options =>
+                {
+                    options.Endpoint = new Uri(otlpExporterTracesEndpoint);
+                }));
+            }
+            else
+            {
+                builder.Services.ConfigureOpenTelemetryTracerProvider(tracing => tracing.AddConsoleExporter());
+            }
+            
+            var otlpExporterLogsEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_LOGS_ENDPOINT"];
+            if (!string.IsNullOrWhiteSpace(otlpExporterLogsEndpoint))
+            {
+                builder.Services.Configure<OpenTelemetryLoggerOptions>(logging => logging.AddOtlpExporter(
+                    options =>
+                    {
+                        //options.Endpoint = new Uri(otlpExporterLogsEndpoint);
+                    }));
+            }
+
+            var otlpExporterMetricsEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"];
+            if (!string.IsNullOrWhiteSpace(otlpExporterMetricsEndpoint))
+            {
+                builder.Services.ConfigureOpenTelemetryMeterProvider(metrics => metrics.AddOtlpExporter(
+                    options =>
+                    {
+                        options.Endpoint = new Uri(otlpExporterMetricsEndpoint);
+                    }));
             }
 
             // Uncomment the following lines to enable the Prometheus exporter (requires the OpenTelemetry.Exporter.Prometheus.AspNetCore package)
-            // builder.Services.AddOpenTelemetry()
-            //    .WithMetrics(metrics => metrics.AddPrometheusExporter());
+             builder.Services.AddOpenTelemetry()
+                .WithMetrics(metrics => metrics.AddPrometheusExporter());
 
             // Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
             // builder.Services.AddOpenTelemetry()

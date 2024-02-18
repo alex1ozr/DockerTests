@@ -21,6 +21,14 @@ services:
     volumes:
       - dts-pg:/var/lib/postgresql/data
 
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - '80:80'
+      - '5341:5341'
+    environment:
+      ACCEPT_EULA: Y
+
   loki:
     container_name: 'dts-loki'
     image: 'grafana/loki:2.9.4'
@@ -44,6 +52,7 @@ services:
     image: 'jaegertracing/all-in-one:1.52'
     environment:
       COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+      COLLECTOR_OTLP_ENABLED: true
     ports:
       - '5775:5775/udp'
       - '6831:6831/udp'
@@ -52,6 +61,8 @@ services:
       - '16686:16686'
       - '14268:14268'
       - '9411:9411'
+      - '4317:4317'
+      - '4318:4318'
 
   grafana:
     container_name: 'dts-grafana'
@@ -99,6 +110,7 @@ services:
         EOF
         /run.sh
     depends_on:
+      - seq
       - loki
       - prometheus
       - jaeger
