@@ -29,12 +29,12 @@ public static class SerilogExtensions
                 //.MinimumLevel.Debug()
                 .Enrich.WithProperty("Application", serviceName)
                 .Enrich.WithProperty("Environment", environment.EnvironmentName)
-                .WriteTo.Logger(lc => lc
-                    .Filter.ByExcluding(Matching.FromSource("Microsoft"))
-                    .Enrich.With<TraceEnricher>()
-                    //.ConditionalWriteToGrafanaLoki(builder.Configuration)
-                    .ConditionalWriteToOtlp(builder.Configuration, serviceName)
-                    .WriteTo.Console());
+                .Filter.ByExcluding(Matching.FromSource("Microsoft"))
+                .Enrich.With<TraceEnricher>()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .ConditionalWriteToOtlp(builder.Configuration, serviceName)
+                .ConditionalWriteToGrafanaLoki(builder.Configuration);
         });
 
         // Removes the built-in logging providers
@@ -68,7 +68,11 @@ public static class SerilogExtensions
                 .WriteTo.OpenTelemetry(options =>
                 {
                     options.Endpoint = otlpExporter;
-                    options.Protocol = OtlpProtocol.HttpProtobuf;
+                    
+                    if (otlpExporter.Contains("/ingest/")) // Workaround for Seq
+                    {
+                        options.Protocol = OtlpProtocol.HttpProtobuf;
+                    }
                     options.ResourceAttributes.Add("service.name", serviceName);
                 });
         }
