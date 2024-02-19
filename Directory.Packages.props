@@ -8,7 +8,7 @@
     <!-- Build -->
     <PackageVersion Include="Microsoft.Extensions.Diagnostics" Version="8.0.0" />
     <PackageVersion Include="NSwag.AspNetCore" Version="14.0.3" />
-    <PackageVersion Include="Nuke.Common" Version="7.0.2" />
+    <PackageVersion Include="Nuke.Common" Version="8.0.0" />
     <PackageVersion Include="NSwag.MSBuild" Version="14.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -1,5 +1,5 @@
 ##################### Base stage #####################
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 
 ENV ASPNETCORE_URLS=http://*:8080
 EXPOSE 8080
@@ -10,7 +10,7 @@ RUN groupadd --gid 999 dotnet && \
 USER 999:999
 
 ##################### Build stage #####################
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 ARG Version=0.0.0.0
 ARG AssemblyVersion=0.0.0.0
@@ -22,6 +22,9 @@ RUN echo Application Version: ${Version}
 RUN echo Assembly Version: ${AssemblyVersion}
 RUN echo File Version: ${FileVersion}
 RUN echo Informational Version: ${InformationalVersion}
+
+# Install the Aspire workload
+RUN dotnet workload install aspire
 
 WORKDIR /app/src
 COPY . .

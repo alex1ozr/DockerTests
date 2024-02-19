@@ -18,6 +18,8 @@ Key features:
 
 ### Main
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [.NET Aspire workload](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview)
+  - Execute `dotnet workload install aspire` to install it
 - [Docker](https://www.docker.com/get-started)
 
 ### Running API
