@@ -40,11 +40,14 @@ public static class Extensions
         this IHostApplicationBuilder builder,
         string serviceName)
     {
-        builder.Logging.AddOpenTelemetry(logging =>
-        {
-            logging.IncludeFormattedMessage = true;
-            logging.IncludeScopes = true;
-        });
+        builder.Logging
+            //.AddFilter((provider, category, level) => 
+            //    !(category?.AsSpan().StartsWith("Microsoft") ?? false))
+            .AddOpenTelemetry(logging =>
+            {
+                logging.IncludeFormattedMessage = true;
+                logging.IncludeScopes = true;
+            });
 
         builder.Services.AddOpenTelemetry()
             .ConfigureResource(resource => resource.AddService(serviceName))

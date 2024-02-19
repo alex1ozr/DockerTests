@@ -26,7 +26,6 @@
     <PackageReference Include="OpenTelemetry.Exporter.Console" />
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Serilog.Sinks.OpenTelemetry" />
-    <PackageReference Include="Serilog.Sinks.Grafana.Loki" />
     
   </ItemGroup>
 
