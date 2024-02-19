@@ -14,7 +14,6 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
         <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
-        <PackageReference Include="Serilog.AspNetCore" />
         <PackageReference Include="Swashbuckle.AspNetCore" />
     </ItemGroup>
     

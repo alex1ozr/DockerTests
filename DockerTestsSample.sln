@@ -17,7 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		docker-compose.yml = docker-compose.yml
-		loki-config.yml = loki-config.yml
 		prometheus.yml = prometheus.yml
 		README.md = README.md
 		.gitignore = .gitignore

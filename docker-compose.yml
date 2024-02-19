@@ -7,6 +7,7 @@ networks:
 volumes:
   dts-pg:
   dts-logs:
+  dts-seq:
   dts-prom:
   dts-grafana:
 
@@ -22,22 +23,16 @@ services:
       - dts-pg:/var/lib/postgresql/data
 
   seq:
-    image: datalust/seq:latest
+    container_name: 'dts-seq'
+    image: datalust/seq:2024.1
     ports:
-      - '80:80'
+      - '5200:80'
       - '5341:5341'
     environment:
       ACCEPT_EULA: Y
-
-  loki:
-    container_name: 'dts-loki'
-    image: 'grafana/loki:2.9.4'
-    ports:
-      - '3100:3100'
     volumes:
-      - ./loki-config.yml:/etc/loki/local-config.yml
-    command: -config.file=/etc/loki/local-config.yaml
-    
+      - dts-seq:/seq
+
   prometheus:
     container_name: 'dts-prom'
     image: 'prom/prometheus:v2.45.2'
@@ -83,14 +78,6 @@ services:
         cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
         apiVersion: 1
         datasources:
-        - name: Loki
-          type: loki
-          access: proxy 
-          url: http://dts-loki:3100
-          basicAuth: false
-          isDefault: true
-          version: 1
-          editable: false
         - name: Jaeger
           type: jaeger
           access: proxy
@@ -111,7 +98,6 @@ services:
         /run.sh
     depends_on:
       - seq
-      - loki
       - prometheus
       - jaeger
     volumes:

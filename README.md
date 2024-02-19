@@ -1,15 +1,16 @@
 ## About project
-Sample of Web API and tests with Database in Docker, along with "build as code" using Nuke Build.
+This is a sample of a Web API and tests with a Database in Docker, along with 'build as code' using Nuke Build.
 
 Key features:
 - [x] ASP.NET Core 8.0
-- [x] Entity Framework Core 7.0 & PostgreSQL
+- [x] Entity Framework Core 8.0 & PostgreSQL
+- [x] [.NET Aspire](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview) support
 - [x] Build solution using [Nuke build](https://nuke.build)
 - [x] Dockerfile automatic generation support using [Scriban](https://github.com/scriban/scriban)
 - [x] API client generation using [NSwag](https://github.com/RicoSuter/NSwag)
 - [x] Integration tests with Docker using [TestContainers](https://github.com/testcontainers/testcontainers-dotnet) and [Respawn](https://github.com/jbogard/Respawn)
-- [x] Docker Compose to run all prerequisites (PostgreSQL, Grafana, Jaeger, Prometheus)
-- [x] Logging using [Serilog](https://serilog.net) with [Loki](https://grafana.com/loki)
+- [x] Docker Compose to run all prerequisites (PostgreSQL, Grafana, Jaeger, Prometheus, etc)
+- [x] Logging using [OpenTelemetry logger](https://learn.microsoft.com/en-us/dotnet/core/extensions/logging?tabs=command-line#logging-in-a-non-trivial-app) with [Seq](https://datalust.co/seq)
 - [x] Metrics using [OpenTelemetry](https://opentelemetry.io) and [Prometheus](https://prometheus.io)
 - [x] Tracing using [OpenTelemetry](https://opentelemetry.io) and [Jaeger](https://www.jaegertracing.io)
 
@@ -21,14 +22,14 @@ Key features:
 
 ### Running API
 In order to run the API, you need to have a PostgreSQL database running. 
-You can use the provided [Docker Compose file](docker-compose.yml) to run it.
+You can use .NET Aspire [AppHost](src/Aspire/AppHost) or the provided [Docker Compose file](docker-compose.yml) to run it.
 
 List of services:
-- PostgreSQL: `localhost:5432`
-- Grafana: `http://localhost:3000`
-- Jaeger: `http://localhost:16686`
-- Prometheus: `http://localhost:9090`
-- Loki: `http://localhost:3100`
+- PostgreSQL (db): `localhost:5432`
+- Grafana (dashboards): http://localhost:3000
+- Jaeger (tracing): http://localhost:16686
+- Prometheus (metrics): http://localhost:9090
+- Seq (logs): http://localhost:5200
 
 ## Projects to start
 ### API
@@ -94,7 +95,6 @@ To see current app metrics, go to http://localhost:5005/metrics
 ## Grafana
 
 Grafana runs automatically using Docker Compose and is available at http://localhost:3000.
-It has three predefined data sources:
+It has following predefined data sources:
 - Prometheus
-- Loki
 - Jaeger
