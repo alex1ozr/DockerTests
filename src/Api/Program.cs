@@ -3,17 +3,15 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.OwnedInstances;
 using DockerTestsSample.Api;
 using DockerTestsSample.Api.Infrastructure.Filters;
-using DockerTestsSample.Api.Infrastructure.Logging;
 using DockerTestsSample.Api.Infrastructure.Mapping;
 using DockerTestsSample.Repositories.Infrastructure.Di;
+using DockerTestsSample.ServiceDefaults;
 using DockerTestsSample.Services.Infrastructure.Di;
 using DockerTestsSample.Store;
 using DockerTestsSample.Store.Di;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using DockerTestsSample.Api.Infrastructure.Telemetry;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -21,16 +19,11 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = Directory.GetCurrentDirectory()
 });
 
-var serviceName = builder.Environment.ApplicationName;
+builder.AddServiceDefaults();
 
 builder.Configuration.AddEnvironmentVariables();
 
-builder.Host.UseSerilog((context, services, configuration) => configuration
-    .ConfigureLogger(builder.Configuration, builder.Environment, serviceName));
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-
-var config = builder.Configuration;
-config.AddEnvironmentVariables("PeopleApi_");
 
 builder.Services
     .AddMvcCore()
@@ -59,11 +52,6 @@ builder.Services.AddOpenApiDocument(settings =>
 builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));
 builder.Services.AddPopulationContext("PopulationDb");
 
-var tracingOtlpEndpoint = builder.Configuration.GetValue<Uri?>("Otlp:Endpoint");
-var tracingJaegerEndpoint = builder.Configuration.GetValue<Uri?>("OpenTelemetry:Jaeger:Host");
-builder.Services
-    .AddTelemetry(serviceName, tracingOtlpEndpoint, tracingJaegerEndpoint);
-
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
     containerBuilder.RegisterModule<RepositoriesModule>();
@@ -72,14 +60,14 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 
 var app = builder.Build();
 
+app.MapDefaultEndpoints();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
     app.UseSwaggerUI();
 }
-
-app.UseSerilogRequestLogging();
 
 app.UseRouting();
 app.MapControllers();

@@ -20,7 +20,7 @@ public interface IIntegrationTestsBuild : IBaseBuild
                 settings
                     .SetProjectFile(Solution)
                     .SetConfiguration("Release")
-                    .SetVerbosity(DotNetVerbosity.Quiet)
+                    .SetVerbosity(DotNetVerbosity.quiet)
                     .EnableNoLogo());
 
             return DotNetTest(settings =>
@@ -28,7 +28,7 @@ public interface IIntegrationTestsBuild : IBaseBuild
                     .SetProjectFile(Solution)
                     .SetFilter($"Category={TestsCategory}")
                     .SetConfiguration("Release")
-                    .SetVerbosity(DotNetVerbosity.Normal)
+                    .SetVerbosity(DotNetVerbosity.normal)
                     .SetLoggers("console;verbosity=normal")
                     .EnableNoLogo()
                     .EnableNoRestore()
