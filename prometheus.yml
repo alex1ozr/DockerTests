@@ -4,6 +4,7 @@ scrape_configs:
     scrape_timeout: 3s
     static_configs:
       - targets:
-          - host.docker.internal:5032
+          - localhost:9090
+          - localhost:5005
         labels:
           app: dts
