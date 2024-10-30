@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		README.md = README.md
 		Directory.Packages.props = Directory.Packages.props
 		docker-compose.yml = docker-compose.yml
-		prometheus.yml = prometheus.yml
-		loki-config.yml = loki-config.yml
 		.gitattributes = .gitattributes
 	EndProjectSection
 EndProject

@@ -3,7 +3,6 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.OwnedInstances;
 using DockerTestsSample.Api;
 using DockerTestsSample.Api.Infrastructure.Filters;
-using DockerTestsSample.Api.Infrastructure.Logging;
 using DockerTestsSample.Api.Infrastructure.Mapping;
 using DockerTestsSample.Repositories.Infrastructure.Di;
 using DockerTestsSample.Services.Infrastructure.Di;
@@ -12,8 +11,10 @@ using DockerTestsSample.Store.Di;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using DockerTestsSample.Api.Infrastructure.Telemetry;
-using Serilog;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -21,12 +22,12 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = Directory.GetCurrentDirectory()
 });
 
+ConfigureOpenTelemetry(builder);
+
 var serviceName = builder.Environment.ApplicationName;
 
 builder.Configuration.AddEnvironmentVariables();
 
-builder.Host.UseSerilog((context, services, configuration) => configuration
-    .ConfigureLogger(builder.Configuration, builder.Environment, serviceName));
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 var config = builder.Configuration;
@@ -59,11 +60,6 @@ builder.Services.AddOpenApiDocument(settings =>
 builder.Services.AddAutoMapper(typeof(ApiContractToDtoMappingProfile));
 builder.Services.AddPopulationContext("PopulationDb");
 
-var tracingOtlpEndpoint = builder.Configuration.GetValue<Uri?>("Otlp:Endpoint");
-var tracingJaegerEndpoint = builder.Configuration.GetValue<Uri?>("OpenTelemetry:Jaeger:Host");
-builder.Services
-    .AddTelemetry(serviceName, tracingOtlpEndpoint, tracingJaegerEndpoint);
-
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
     containerBuilder.RegisterModule<RepositoriesModule>();
@@ -79,11 +75,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseSerilogRequestLogging();
-
 app.UseRouting();
 app.MapControllers();
-app.MapPrometheusScrapingEndpoint();
 
 var skipMigration = app.Services.GetRequiredService<IConfiguration>()
     .GetSection("SkipMigration").Get<bool?>() ?? false;
@@ -94,3 +87,35 @@ if (!skipMigration)
 }
 
 app.Run();
+
+static IHostApplicationBuilder ConfigureOpenTelemetry(IHostApplicationBuilder builder)
+{
+    builder.Logging.AddOpenTelemetry(logging =>
+    {
+        logging.IncludeFormattedMessage = true;
+        logging.IncludeScopes = true;
+    });
+
+    builder.Services.AddOpenTelemetry()
+        .ConfigureResource(c => c.AddService("DockerTestsSample"))
+        .WithMetrics(metrics =>
+        {
+            metrics.AddHttpClientInstrumentation()
+                .AddRuntimeInstrumentation();
+        })
+        .WithTracing(tracing =>
+        {
+            tracing.AddHttpClientInstrumentation();
+            tracing.AddAspNetCoreInstrumentation();
+            tracing.AddSource("DockerTestsSample");
+        });
+
+    // Use the OTLP exporter if the endpoint is configured.
+    var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+    if (useOtlpExporter)
+    {
+        builder.Services.AddOpenTelemetry().UseOtlpExporter();
+    }
+
+    return builder;
+}

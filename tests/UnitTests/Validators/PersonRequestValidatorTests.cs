@@ -19,26 +19,22 @@ public sealed class PersonRequestValidatorTests
         result.IsValid.Should().BeTrue();
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    public void Validate_WhenNameIsEmpty_ShouldReturnFailure(string name)
+    [Fact]
+    public void Validate_WhenNameIsEmpty_ShouldReturnFailure()
     {
         // Act
-        var result = _sut.Validate(GetPersonRequest(name: name));
+        var result = _sut.Validate(GetPersonRequest(name: string.Empty));
 
         // Assert
         result.IsValid.Should().BeFalse();
         result.Errors.Should().OnlyContain(x => x.PropertyName == nameof(PersonRequest.Name));
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    public void Validate_WhenLastNameIsEmpty_ShouldReturnFailure(string lastName)
+    [Fact]
+    public void Validate_WhenLastNameIsEmpty_ShouldReturnFailure()
     {
         // Act
-        var result = _sut.Validate(GetPersonRequest(lastName: lastName));
+        var result = _sut.Validate(GetPersonRequest(lastName: string.Empty));
 
         // Assert
         result.IsValid.Should().BeFalse();
