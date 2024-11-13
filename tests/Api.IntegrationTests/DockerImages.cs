@@ -2,5 +2,5 @@ namespace DockerTestsSample.Api.IntegrationTests;
 
 internal static class DockerImages
 {
-    public const string PostgreSql = "postgres:15.3-alpine";
+    public const string PostgreSql = "postgres:17.0-alpine";
 }

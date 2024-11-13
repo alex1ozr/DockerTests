@@ -1,5 +1,5 @@
 ##################### Base stage #####################
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 
 ENV ASPNETCORE_URLS=http://*:8080
 EXPOSE 8080
@@ -10,7 +10,7 @@ RUN groupadd --gid 999 dotnet && \
 USER 999:999
 
 ##################### Build stage #####################
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 
 ARG Version=0.0.0.0
 ARG AssemblyVersion=0.0.0.0
