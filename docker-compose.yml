@@ -23,7 +23,7 @@ services:
 
   aspire-dashboard:
     container_name: 'dts-aspire-dashboard'
-    image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:9.0-preview
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
     ports:
       - "18888:18888"
       - "4317:18889"
