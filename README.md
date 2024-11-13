@@ -3,7 +3,7 @@ Sample of Web API and tests with Database in Docker, along with "build as code" 
 
 Key features:
 - [x] ASP.NET Core 9.0
-- [x] Entity Framework Core 9.0 & PostgreSQL
+- [x] Entity Framework Core 9.0 & PostgreSQL 17
 - [x] Build solution using [Nuke build](https://nuke.build)
 - [x] Dockerfile automatic generation support using [Scriban](https://github.com/scriban/scriban)
 - [x] API client generation using [NSwag](https://github.com/RicoSuter/NSwag)
