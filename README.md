@@ -82,7 +82,3 @@ API client is generated using [NSwag](https://github.com/RicoSuter/NSwag) tool.
 It generates automatically when ClientGenerator project is built.
 
 See more details in NSwag documentation and [nswag.json](src/ClientGenerator/nswag.json) file.
-
-## Metrics
-
-To see current app metrics, go to http://localhost:5005/metrics
