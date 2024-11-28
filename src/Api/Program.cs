@@ -2,8 +2,9 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.OwnedInstances;
 using DockerTestsSample.Api;
-using DockerTestsSample.Api.Infrastructure.Filters;
 using DockerTestsSample.Api.Infrastructure.Mapping;
+using DockerTestsSample.Api.Infrastructure.Problems;
+using DockerTestsSample.Common.Exceptions;
 using DockerTestsSample.Repositories.Infrastructure.Di;
 using DockerTestsSample.Services.Infrastructure.Di;
 using DockerTestsSample.Store;
@@ -37,11 +38,12 @@ builder.Services
     .AddMvcCore()
     .AddApiExplorer()
     .AddControllersAsServices()
-    .AddMvcOptions(opt =>
-    {
-        opt.Filters.Add<DefaultExceptionFilter>();
-    })
     .AddDataAnnotations();
+
+builder.Services
+    .AddProblemDetails()
+    .AddExceptionHandler<CustomExceptionHandler>()
+    .AddExceptionHandler<ExceptionLoggingHandler>();
 
 builder.Services.AddFluentValidationAutoValidation(x =>
 {
@@ -67,6 +69,21 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 });
 
 var app = builder.Build();
+
+app.UseExceptionHandler(new ExceptionHandlerOptions
+{
+    StatusCodeSelector = ex => ex switch
+    {
+        ArgumentNullException _ => StatusCodes.Status400BadRequest,
+        ArgumentException _ => StatusCodes.Status400BadRequest,
+        FormatException _ => StatusCodes.Status400BadRequest,
+        PersonNotFoundException _ => StatusCodes.Status404NotFound,
+        PersonAlreadyExistsException _ => StatusCodes.Status409Conflict,
+        DomainException _ => StatusCodes.Status400BadRequest,
+        _ => StatusCodes.Status500InternalServerError
+    }
+});
+app.UseStatusCodePages();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

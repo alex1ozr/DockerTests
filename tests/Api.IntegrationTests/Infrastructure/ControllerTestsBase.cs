@@ -3,7 +3,7 @@ using DockerTestsSample.Client.Abstract;
 using DockerTestsSample.Client.Implementations;
 using Xunit;
 
-namespace DockerTestsSample.Api.IntegrationTests.Abstract;
+namespace DockerTestsSample.Api.IntegrationTests.Infrastructure;
 
 [Trait("Category", IntegrationTestCollection.Category)]
 [Collection(IntegrationTestCollection.Name)]

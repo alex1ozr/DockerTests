@@ -5,7 +5,7 @@
     </PropertyGroup>
     
     <Target Name="NSwag" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
-        <Exec Command="$(NSwagExe_Net80) run nswag.json /variables:Configuration=$(Configuration)" 
+        <Exec Command="$(NSwagExe_Net90) run nswag.json /variables:Configuration=$(Configuration)" 
               EnvironmentVariables="SkipMigration=True"
               ConsoleToMSBuild="true" />
     </Target>

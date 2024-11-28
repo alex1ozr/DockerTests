@@ -1,4 +1,5 @@
-﻿using DockerTestsSample.Client.Implementations;
+﻿using DockerTestsSample.Client.Abstract;
+using DockerTestsSample.Client.Implementations;
 using DockerTestsSample.Client.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -15,26 +16,31 @@ public static class ServiceCollectionExtensions
             .HandleTransientHttpError()
             .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
 
-    public static void AddSampleClient(this IServiceCollection services)
+    public static void AddSampleClient(
+        this IServiceCollection services,
+        Action<ClientOptions>? configureOptions = null)
     {
-        services.AddClientOptions();
+        services.AddClientOptions(configureOptions);
 
         services.AddHttpClient<IPersonClient, PersonClient>(
                 (provider, client) =>
                 {
-                    var baseUrl = provider.GetRequiredService<IOptions<ClientOptions>>().Value.Url();
+                    var baseUrl = provider.GetRequiredService<IOptions<ClientOptions>>().Value.RequiredServerUrl;
                     client.BaseAddress = baseUrl;
                 })
             .AddPolicyHandler(RetryPolicy);
 
-        services.AddTransient<IPersonClient, PersonClient>();
+        services.AddTransient<ISampleClient, SampleClient>();
     }
 
-    private static IServiceCollection AddClientOptions(this IServiceCollection services)
+    private static IServiceCollection AddClientOptions(
+        this IServiceCollection services,
+        Action<ClientOptions>? configureOptions = null)
     {
         services.AddOptions<ClientOptions>()
             .BindConfiguration(ClientOptions.OptionKey)
-            .ValidateDataAnnotations();
+            .ValidateDataAnnotations()
+            .Configure(configureOptions ?? (_ => { }));
 
         return services;
     }

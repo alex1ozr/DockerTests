@@ -2,12 +2,10 @@
 using DockerTestsSample.Common.Exceptions;
 using DockerTestsSample.Repositories.People;
 using DockerTestsSample.Store.Entities;
-using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
 namespace DockerTestsSample.Services.People;
 
-[UsedImplicitly]
 internal sealed class PersonService : IPersonService
 {
     private readonly IPersonRepository _personRepository;

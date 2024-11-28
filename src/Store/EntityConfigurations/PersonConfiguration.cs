@@ -1,11 +1,9 @@
 ﻿using DockerTestsSample.Store.Entities;
-using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DockerTestsSample.Store.EntityConfigurations;
 
-[UsedImplicitly]
 internal sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
 {
     public void Configure(EntityTypeBuilder<Person> builder)

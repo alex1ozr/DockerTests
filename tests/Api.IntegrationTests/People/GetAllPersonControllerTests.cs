@@ -1,4 +1,4 @@
-﻿using DockerTestsSample.Api.IntegrationTests.Abstract;
+﻿using DockerTestsSample.Api.IntegrationTests.Infrastructure;
 using FluentAssertions;
 using Xunit;
 

@@ -1,4 +1,4 @@
-﻿using DockerTestsSample.Api.IntegrationTests.Abstract;
+﻿using DockerTestsSample.Api.IntegrationTests.Infrastructure;
 using DockerTestsSample.Client.Implementations;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;

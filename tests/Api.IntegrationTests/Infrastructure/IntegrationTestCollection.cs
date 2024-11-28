@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace DockerTestsSample.Api.IntegrationTests;
+namespace DockerTestsSample.Api.IntegrationTests.Infrastructure;
 
 [CollectionDefinition(Name)]
 public class IntegrationTestCollection : ICollectionFixture<TestApplication>
