@@ -1,6 +1,7 @@
 ﻿using DockerTestsSample.Build.Infrastructure.Docker;
 using DockerTestsSample.Build.Infrastructure.Extensions;
 using Nuke.Common;
+using Nuke.Common.Tools.Docker;
 using Serilog;
 using static Nuke.Common.Tools.Docker.DockerTasks;
 
@@ -27,7 +28,7 @@ public interface IDockerBuild : IBaseBuild
     Target BuildDockerfileWithArtifacts => _ => _
         .Executes(() =>
         {
-            SetupLogging();
+            //SetupLogging();
 
             foreach (var dockerImageInfo in DockerImages)
             {
@@ -48,7 +49,7 @@ public interface IDockerBuild : IBaseBuild
         .Requires(() => RepositoriesUrl)
         .Executes(() =>
         {
-            SetupLogging();
+            //SetupLogging();
 
             foreach (var dockerImageInfo in DockerImages)
             {
@@ -58,6 +59,10 @@ public interface IDockerBuild : IBaseBuild
             }
         });
 
+
+    // TODO https://github.com/nuke-build/nuke/discussions/1455
+    // DockerLogger was removed in Nuke 9.0.0 and there is no replacement for it yet
+    /*
     // Workaround for logging issue in Nuke with Docker tasks
     // See more details here: https://nuke.build/faq
     static void SetupLogging() => DockerLogger = (_, s) =>
@@ -71,4 +76,5 @@ public interface IDockerBuild : IBaseBuild
             Log.Debug(s);
         }
     };
+    */
 }

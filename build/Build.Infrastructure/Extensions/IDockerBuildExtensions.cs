@@ -115,7 +115,7 @@ internal static class IDockerBuildExtensions
                 .SetFile(dockerfilePath)
                 .SetTag(build.GetDockerImageTag(dockerImageInfo.DockerImageName))
                 .EnablePull()
-                .SetProgress(ProgressType.plain)
+                .SetProgress(DockerProgressType.plain)
                 .SetTarget("final")
                 .SetBuildArg(
                     $"Version={build.Version.FullVersion}",

@@ -27,7 +27,7 @@ public sealed class GetAllPersonControllerTests : ControllerTestsBase
         response.Should()
             .NotBeNull()
             .And
-            .BeEquivalentTo(new[] { personRequest });
+            .BeEquivalentTo([personRequest]);
     }
 
     [Fact]

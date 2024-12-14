@@ -32,8 +32,11 @@ public sealed class GetPersonControllerTests : ControllerTestsBase
     [Fact]
     public async Task Get_ReturnsNotFound_WhenPersonDoesNotExist()
     {
-        Func<Task> f = async () => await Client.People.GetPersonAsync(Guid.NewGuid());
-        var exception = await f.Should().ThrowAsync<ApiException<ProblemDetails>>();
+        // Act, Assert
+        var exception = await Client.People
+            .Invoking(p => p.GetPersonAsync(Guid.NewGuid()))
+            .Should().ThrowAsync<ApiException<ProblemDetails>>();
+
         exception.Which
             .Result
             .Status.Should()

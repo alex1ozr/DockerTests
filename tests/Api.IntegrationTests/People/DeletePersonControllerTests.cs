@@ -26,8 +26,10 @@ public sealed class DeletePersonControllerTests : ControllerTestsBase
         await Client.People.DeletePersonAsync(personId);
 
         // Assert
-        Func<Task> f = async () => await Client.People.GetPersonAsync(personId);
-        var exception = await f.Should().ThrowAsync<ApiException<ProblemDetails>>();
+        var exception = await Client.People
+           .Invoking(p => p.GetPersonAsync(personId))
+           .Should().ThrowAsync<ApiException<ProblemDetails>>();
+
         exception.Which
             .Result
             .Status.Should()
@@ -37,8 +39,11 @@ public sealed class DeletePersonControllerTests : ControllerTestsBase
     [Fact]
     public async Task Delete_ReturnsNotFound_WhenPersonDoesNotExist()
     {
-        Func<Task> f = async () => await Client.People.DeletePersonAsync(Guid.NewGuid());
-        var exception = await f.Should().ThrowAsync<ApiException<ProblemDetails>>();
+        // Act, Assert
+        var exception = await Client.People
+            .Invoking(p => p.DeletePersonAsync(Guid.NewGuid()))
+            .Should().ThrowAsync<ApiException<ProblemDetails>>();
+
         exception.Which
             .Result
             .Status.Should()

@@ -18,7 +18,7 @@ public class CustomExceptionHandler(IProblemDetailsService problemDetailsService
             Type = exception.GetType().Name,
             Detail = exception.Message
         };
-        
+
         if (exception is DomainException validationException)
         {
             problemDetails.Title = validationException.ShortDescription;

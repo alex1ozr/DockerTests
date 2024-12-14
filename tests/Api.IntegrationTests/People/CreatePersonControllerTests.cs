@@ -36,8 +36,10 @@ public sealed class CreatePersonControllerTests : ControllerTestsBase
             .RuleFor(x => x.Email, invalidEmail).Generate();
 
         // Act, Assert
-        Func<Task> f = async () => await Client.People.CreatePersonAsync(Guid.NewGuid(), personRequest);
-        var exception = await f.Should().ThrowAsync<ApiException<ValidationProblemDetails>>();
+        var exception = await Client.People
+            .Invoking(p => p.CreatePersonAsync(Guid.NewGuid(), personRequest))
+            .Should().ThrowAsync<ApiException<ValidationProblemDetails>>();
+
         var problemDetails = exception.Which.Result;
         problemDetails.Status.Should().Be(StatusCodes.Status400BadRequest);
         problemDetails.Errors.Should().ContainKey("Email");
@@ -52,8 +54,10 @@ public sealed class CreatePersonControllerTests : ControllerTestsBase
         await Client.People.CreatePersonAsync(personId, personRequest);
 
         // Act, Assert
-        Func<Task> f = async () => await Client.People.CreatePersonAsync(personId, personRequest);
-        var exception = await f.Should().ThrowAsync<ApiException<ProblemDetails>>();
+        var exception = await Client.People
+            .Invoking(p => p.CreatePersonAsync(personId, personRequest))
+            .Should().ThrowAsync<ApiException<ProblemDetails>>();
+
         exception.Which.Result.Should()
             .BeEquivalentTo(new
             {

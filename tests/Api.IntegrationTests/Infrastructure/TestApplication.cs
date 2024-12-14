@@ -37,7 +37,7 @@ public sealed class TestApplication :
     private Respawner Respawner => _respawner.Required();
 
     public ISampleClient SampleClient => TestServices.GetRequiredService<ISampleClient>();
-    
+
     public IServiceProvider TestServices => _testServices.Required();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -55,10 +55,10 @@ public sealed class TestApplication :
     {
         await _dbContainer.StartAsync();
         await InitializeDatabaseAsync();
-        
+
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
         await InitializeRespawner();
-        
+
         _testServices = ConfigureTestServices();
     }
 
@@ -68,17 +68,17 @@ public sealed class TestApplication :
         var context = scope.ServiceProvider.GetRequiredService<IPopulationDbContext>() as DbContext;
         await context.Required().Database.MigrateAsync();
     }
-    
+
     private async Task InitializeRespawner()
     {
         await DbConnection.OpenAsync();
         _respawner = await Respawner.CreateAsync(DbConnection, new RespawnerOptions
         {
             DbAdapter = DbAdapter.Postgres,
-            SchemasToInclude = new[] { "public" },
+            SchemasToInclude = ["public"],
         });
     }
-    
+
     private IServiceProvider ConfigureTestServices()
     {
         var configuration = new ConfigurationBuilder()

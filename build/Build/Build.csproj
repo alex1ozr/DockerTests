@@ -3,7 +3,6 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
-    <!-- There is a critical bug with BinnaryFormatter deprecation in .NET 9. See https://github.com/nuke-build/nuke/issues/818 -->
     <RootNamespace></RootNamespace>
     <NoWarn>CS0649;CS0169</NoWarn>
     <NukeRootDirectory>..\..</NukeRootDirectory>
@@ -14,7 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="Nuke.Common" />
-    <PackageReference Include="System.Runtime.Serialization.Formatters" />
   </ItemGroup>
 
   <ItemGroup>
