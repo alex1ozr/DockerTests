@@ -14,6 +14,7 @@
     <DebugType>embedded</DebugType>
     <DebugSymbols>True</DebugSymbols>
     <IsPackable>False</IsPackable>
+    <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
   
   <PropertyGroup>
